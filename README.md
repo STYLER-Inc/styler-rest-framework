@@ -1,1 +1,0 @@
-# styler-rest-framework
