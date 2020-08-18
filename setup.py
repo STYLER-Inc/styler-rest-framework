@@ -12,7 +12,8 @@ requirements = [
     'sqlalchemy',
     'pyyaml',
     'psycopg2-binary',
-    'sqlalchemy-serializer'
+    'sqlalchemy-serializer',
+    'styler-identity'
 ]
 
 setup_requirements = ['pytest-runner', ]

@@ -1,5 +1,0 @@
-aiohttp
-sqlalchemy
-pyyaml
-psycopg2-binary
-sqlalchemy-serializer
