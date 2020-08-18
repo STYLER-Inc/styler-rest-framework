@@ -229,7 +229,8 @@ class TestGetTokenAuthHeader:
 
         with pytest.raises(ValueError) as expected:
             get_token_auth_header(request)
-        assert str(expected.value) == 'Authorization header must start with Bearer'
+        assert str(expected.value) == \
+            'Authorization header must start with Bearer'
 
     def test_without_token(self):
         """ Should raise an exception if the auth is invalid
@@ -249,7 +250,8 @@ class TestGetTokenAuthHeader:
 
         with pytest.raises(ValueError) as expected:
             get_token_auth_header(request)
-        assert str(expected.value) == 'Authorization header must be Bearer token'
+        assert str(expected.value) == \
+            'Authorization header must be Bearer token'
 
 
 class TestGetIdentity:
@@ -275,6 +277,7 @@ class TestGetIdentity:
         'EmnQ5Zm9UJvrS6tiCigTGkF43PhwTl26K9ztwOtekrpOiwap-c55rUG8TbobpmGGkF'
         'i9Q3r5dHH-ag'
     )
+
     def test_get_identity(self):
         request = Mock()
         request.headers.get.return_value = f'Bearer {self.custom_token}'
