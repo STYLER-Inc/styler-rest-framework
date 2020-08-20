@@ -5,10 +5,17 @@ import json
 import logging
 
 from aiohttp import web
-from styler_rest_framework.exceptions.services import \
-    InvalidDataError, AuthenticationError, AuthorizationError, UnexpectedError
+from styler_rest_framework.exceptions.services import (
+    AuthenticationError,
+    AuthorizationError,
+    InternalServerError,
+    InvalidDataError,
+    NotFoundError,
+    PaymentRequiredError,
+    UnexpectedError,
+)
 from styler_rest_framework.exceptions.business import \
-    ValidationError, NotFoundError, PermissionDeniedError
+    ValidationError, ResourceNotFoundError, PermissionDeniedError
 from styler_identity import Identity
 
 
@@ -108,17 +115,26 @@ class BaseController:
         raise web.HTTPForbidden(
             content_type='application/json')
 
-    def handle_service_errors(self, ex):
+    async def handle_service_errors(self, ex):
         """ Default method for handling service related errors
         """
         if isinstance(ex, InvalidDataError):
-            self.bad_request(ex.json_body.get('reason'))
+            data = await ex.json_body()
+            print(data)
+            self.bad_request(data.get('reason'))
         elif isinstance(ex, AuthenticationError):
             self.unauthorized()
+        elif isinstance(ex, PaymentRequiredError):
+            body = await ex.json_body()
+            self.payment_required(body.get('code'), body.get('reason'))
         elif isinstance(ex, AuthorizationError):
             self.forbidden()
+        elif isinstance(ex, NotFoundError):
+            self.not_found()
+        elif isinstance(ex, InternalServerError):
+            raise web.HTTPInternalServerError() from ex
         elif isinstance(ex, UnexpectedError):
-            raise web.HTTPInternalServerError()
+            raise web.HTTPInternalServerError() from ex
         else:
             raise ex
 
@@ -129,7 +145,7 @@ class BaseController:
             self.bad_request(ex.errors)
         elif isinstance(ex, PermissionDeniedError):
             self.forbidden()
-        elif isinstance(ex, NotFoundError):
+        elif isinstance(ex, ResourceNotFoundError):
             self.not_found()
         else:
             raise ex
