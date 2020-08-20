@@ -12,7 +12,7 @@ class PermissionDeniedError(BusinessError):  # pragma: no coverage
     """
 
 
-class NotFoundError(BusinessError):  # pragma: no coverage
+class ResourceNotFoundError(BusinessError):  # pragma: no coverage
     """ Error raised when the required resource was not found
     """
 

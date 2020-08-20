@@ -7,10 +7,17 @@ import json
 from aiohttp import web
 from styler_rest_framework.controllers import \
     BaseController, get_token_auth_header
-from styler_rest_framework.exceptions.services import \
-    InvalidDataError, AuthenticationError, AuthorizationError, UnexpectedError
+from styler_rest_framework.exceptions.services import (
+    AuthenticationError,
+    AuthorizationError,
+    InternalServerError,
+    InvalidDataError,
+    NotFoundError,
+    PaymentRequiredError,
+    UnexpectedError,
+)
 from styler_rest_framework.exceptions.business import \
-    ValidationError, NotFoundError, PermissionDeniedError
+    ValidationError, ResourceNotFoundError, PermissionDeniedError
 from styler_identity import Identity
 import pytest
 
@@ -119,48 +126,90 @@ class TestResponses:
         assert expected.value.status == 402
 
 
+class MockResponse:
+    def __init__(self, text, status):
+        self.body_text = text
+        self.status = status
+
+    async def text(self):
+        return self.body_text
+
+
 class TestHandleServiceErrors:
     """ Tests for handle_service_errors
     """
-    def test_invalid_data(self):
+    async def test_invalid_data(self):
         base = BaseController()
         base.bad_request = MagicMock('aaa')
         error = {
             'code': 'some_code',
             'reason': {'error': 'something'}
         }
+        response = MockResponse(json.dumps(error), 400)
 
-        base.handle_service_errors(InvalidDataError(error))
+        await base.handle_service_errors(InvalidDataError(response))
 
         base.bad_request.assert_called_with({'error': 'something'})
 
-    def test_authentication_error(self):
+    async def test_authentication_error(self):
         base = BaseController()
         base.unauthorized = MagicMock('aaa')
+        response = MockResponse('Unauthorized', 401)
 
-        base.handle_service_errors(AuthenticationError())
+        await base.handle_service_errors(AuthenticationError(response))
 
         base.unauthorized.assert_called_with()
 
-    def test_authorization_error(self):
+    async def test_payment_required_error(self):
+        base = BaseController()
+        base.payment_required = MagicMock('aaa')
+        error = {
+            'code': 'some_code',
+            'reason': {'error': 'something'}
+        }
+        response = MockResponse(json.dumps(error), 402)
+
+        await base.handle_service_errors(PaymentRequiredError(response))
+
+        base.payment_required.assert_called_with(
+            'some_code', {'error': 'something'})
+
+    async def test_authorization_error(self):
         base = BaseController()
         base.forbidden = MagicMock('aaa')
+        response = MockResponse('Forbidden', 403)
 
-        base.handle_service_errors(AuthorizationError())
+        await base.handle_service_errors(AuthorizationError(response))
 
         base.forbidden.assert_called_with()
 
-    def test_unexpected_error(self):
+    async def test_not_found_error(self):
+        base = BaseController()
+        base.not_found = MagicMock('aaa')
+        response = MockResponse('Not found', 404)
+
+        await base.handle_service_errors(NotFoundError(response))
+
+        base.not_found.assert_called_with()
+
+    async def test_internal_server_error(self):
+        base = BaseController()
+        response = MockResponse('Error', 500)
+
+        with pytest.raises(web.HTTPInternalServerError):
+            await base.handle_service_errors(InternalServerError(response))
+
+    async def test_unexpected_error(self):
         base = BaseController()
 
         with pytest.raises(web.HTTPInternalServerError):
-            base.handle_service_errors(UnexpectedError(Mock()))
+            await base.handle_service_errors(UnexpectedError(Mock()))
 
-    def test_other_exceptions_error(self):
+    async def test_other_exceptions_error(self):
         base = BaseController()
 
         with pytest.raises(ValueError):
-            base.handle_service_errors(ValueError())
+            await base.handle_service_errors(ValueError())
 
 
 class TestHandleBusinessErrors:
@@ -187,7 +236,7 @@ class TestHandleBusinessErrors:
         base = BaseController()
         base.not_found = MagicMock('aaa')
 
-        base.handle_business_errors(NotFoundError())
+        base.handle_business_errors(ResourceNotFoundError())
 
         base.not_found.assert_called_with()
 
