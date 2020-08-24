@@ -43,7 +43,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/STYLER-Inc/styler_rest_framework',
+    url='https://github.com/STYLER-Inc/styler-rest-framework',
     version='0.1.0',
     zip_safe=False,
 )
