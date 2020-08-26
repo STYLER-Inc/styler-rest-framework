@@ -23,6 +23,9 @@ class IdentityMock:
     def token(self):
         return 'aaa.aaaaa.aaa'
 
+    def trace_header(self):
+        return {}
+
 
 class TestInit:
     """ Tests for init
@@ -42,11 +45,6 @@ class TestInit:
 
         assert 'my-custom-header' in handler.headers
         assert handler.headers['my-custom-header'] == '1234'
-
-    def test_without_identity(self):
-        handler = HTTPHandler()
-
-        assert 'Authorization' not in handler.headers
 
 
 class TestPost:

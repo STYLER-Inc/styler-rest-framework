@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, Mock, patch
 import json
 
 from aiohttp import web
-from styler_rest_framework.controllers import \
-    BaseController, get_token_auth_header
+from styler_rest_framework.controllers import BaseController
+from styler_rest_framework.controllers.request_scope import RequestScope
 from styler_rest_framework.exceptions.services import (
     AuthenticationError,
     AuthorizationError,
@@ -18,7 +18,6 @@ from styler_rest_framework.exceptions.services import (
 )
 from styler_rest_framework.exceptions.business import \
     ValidationError, ResourceNotFoundError, PermissionDeniedError
-from styler_identity import Identity
 import pytest
 
 
@@ -247,62 +246,6 @@ class TestHandleBusinessErrors:
             base.handle_business_errors(ValueError())
 
 
-class TestGetTokenAuthHeader:
-    """ Tests for get_token_auth_header
-    """
-    def test_get_token(self):
-        """ Should return the token
-        """
-        request = Mock()
-        request.headers.get.return_value = 'Bearer TOKEN'
-
-        token = get_token_auth_header(request)
-
-        assert token == 'TOKEN'
-
-    def test_without_header(self):
-        """ Should raise an exception if there is no Authorization header
-        """
-        request = Mock()
-        request.headers.get.return_value = None
-
-        with pytest.raises(ValueError) as expected:
-            get_token_auth_header(request)
-        assert str(expected.value) == 'Authorization header is expected'
-
-    def test_without_bearer(self):
-        """ Should raise an exception if there is no bearer
-        """
-        request = Mock()
-        request.headers.get.return_value = 'token TOKEN'
-
-        with pytest.raises(ValueError) as expected:
-            get_token_auth_header(request)
-        assert str(expected.value) == \
-            'Authorization header must start with Bearer'
-
-    def test_without_token(self):
-        """ Should raise an exception if the auth is invalid
-        """
-        request = Mock()
-        request.headers.get.return_value = 'Bearer'
-
-        with pytest.raises(ValueError) as expected:
-            get_token_auth_header(request)
-        assert str(expected.value) == 'Token not found'
-
-    def test_invalid_auth(self):
-        """ Should raise an exception if the Authorization is invalid
-        """
-        request = Mock()
-        request.headers.get.return_value = 'Bearer TOKEN TOKEN'
-
-        with pytest.raises(ValueError) as expected:
-            get_token_auth_header(request)
-        assert str(expected.value) == \
-            'Authorization header must be Bearer token'
-
-
 class TestGetIdentity:
     """ Tests for BaseController.get_identity
     """
@@ -334,7 +277,7 @@ class TestGetIdentity:
 
         identity = contr.get_identity(request)
 
-        assert isinstance(identity, Identity)
+        assert isinstance(identity, RequestScope)
 
     def test_invalid_jwt(self):
         request = Mock()
