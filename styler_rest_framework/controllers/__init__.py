@@ -14,29 +14,12 @@ from styler_rest_framework.exceptions.services import (
     PaymentRequiredError,
     UnexpectedError,
 )
-from styler_rest_framework.exceptions.business import \
-    ValidationError, ResourceNotFoundError, PermissionDeniedError
-from styler_identity import Identity
-
-
-def get_token_auth_header(request):
-    """ Obtains the Access Token from the Authorization Header
-    """
-    auth_header = request.headers.get('Authorization')
-    if not auth_header:
-        raise ValueError('Authorization header is expected')
-
-    parts = auth_header.split()
-
-    if parts[0].lower() != 'bearer':
-        raise ValueError('Authorization header must start with Bearer')
-    elif len(parts) == 1:
-        raise ValueError('Token not found')
-    elif len(parts) > 2:
-        raise ValueError('Authorization header must be Bearer token')
-
-    token = parts[1]
-    return token
+from styler_rest_framework.exceptions.business import (
+    ValidationError,
+    ResourceNotFoundError,
+    PermissionDeniedError
+)
+from styler_rest_framework.controllers.request_scope import RequestScope
 
 
 class BaseController:
@@ -47,8 +30,7 @@ class BaseController:
         """ Get the identity of the logged user
         """
         try:
-            token = get_token_auth_header(request)
-            return Identity(token)
+            return RequestScope(request)
         except ValueError:
             self.bad_request({'jwt': 'invalid'})
 

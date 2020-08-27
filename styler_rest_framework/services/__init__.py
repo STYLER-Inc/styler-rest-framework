@@ -18,17 +18,15 @@ from styler_rest_framework.exceptions.services import (
 class HTTPHandler:
     """ Handles HTTP operations
     """
-    def __init__(self, identity=None, headers=None):
+    def __init__(self, identity, headers=None):
         self.identity = identity
         if headers is None:
             headers = {}
-        if self.identity:
-            self.headers = {
-                'Authorization': f'Bearer {identity.token()}',
-                **headers
-            }
-        else:
-            self.headers = headers
+        self.headers = {
+            'Authorization': f'Bearer {identity.token()}',
+            **identity.trace_header(),
+            **headers
+        }
 
     async def post(self, url, params, error_handlers=None, **kwargs):
         headers = self._prepare_headers(kwargs.get('headers', {}))
