@@ -7,26 +7,19 @@ import json
 class ServiceError(Exception):
     """ Errors raised from services
     """
-    def __init__(self, response):
-        self.response = response
+    def __init__(self, status, response_text):
+        self.status = status
+        self.response_text = response_text
 
-    async def json_body(self):
+    def json_body(self):
         """ Parse the response body
 
             Returns the json dict or an empty dict if it fails
         """
         try:
-            return json.loads(await self.response.text())
+            return json.loads(self.response_text)
         except json.decoder.JSONDecodeError:
             return {}
-
-    async def text(self):
-        """ Returns the text from the response
-        """
-        return await self.response.text()
-
-    def response_status(self):
-        return self.response.status
 
 
 class InvalidDataError(ServiceError):   # pragma: no coverage

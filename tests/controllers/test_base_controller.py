@@ -125,15 +125,6 @@ class TestResponses:
         assert expected.value.status == 402
 
 
-class MockResponse:
-    def __init__(self, text, status):
-        self.body_text = text
-        self.status = status
-
-    async def text(self):
-        return self.body_text
-
-
 class TestHandleServiceErrors:
     """ Tests for handle_service_errors
     """
@@ -144,18 +135,17 @@ class TestHandleServiceErrors:
             'code': 'some_code',
             'reason': {'error': 'something'}
         }
-        response = MockResponse(json.dumps(error), 400)
 
-        await base.handle_service_errors(InvalidDataError(response))
+        base.handle_service_errors(
+            InvalidDataError(400, json.dumps(error)))
 
         base.bad_request.assert_called_with({'error': 'something'})
 
     async def test_authentication_error(self):
         base = BaseController()
         base.unauthorized = MagicMock('aaa')
-        response = MockResponse('Unauthorized', 401)
 
-        await base.handle_service_errors(AuthenticationError(response))
+        base.handle_service_errors(AuthenticationError(401, ''))
 
         base.unauthorized.assert_called_with()
 
@@ -166,9 +156,9 @@ class TestHandleServiceErrors:
             'code': 'some_code',
             'reason': {'error': 'something'}
         }
-        response = MockResponse(json.dumps(error), 402)
 
-        await base.handle_service_errors(PaymentRequiredError(response))
+        base.handle_service_errors(
+            PaymentRequiredError(402, json.dumps(error)))
 
         base.payment_required.assert_called_with(
             'some_code', {'error': 'something'})
@@ -176,39 +166,36 @@ class TestHandleServiceErrors:
     async def test_authorization_error(self):
         base = BaseController()
         base.forbidden = MagicMock('aaa')
-        response = MockResponse('Forbidden', 403)
 
-        await base.handle_service_errors(AuthorizationError(response))
+        base.handle_service_errors(AuthorizationError(403, ''))
 
         base.forbidden.assert_called_with()
 
     async def test_not_found_error(self):
         base = BaseController()
         base.not_found = MagicMock('aaa')
-        response = MockResponse('Not found', 404)
 
-        await base.handle_service_errors(NotFoundError(response))
+        base.handle_service_errors(NotFoundError(404, ''))
 
         base.not_found.assert_called_with()
 
     async def test_internal_server_error(self):
         base = BaseController()
-        response = MockResponse('Error', 500)
 
         with pytest.raises(web.HTTPInternalServerError):
-            await base.handle_service_errors(InternalServerError(response))
+            base.handle_service_errors(InternalServerError(500, ''))
 
     async def test_unexpected_error(self):
         base = BaseController()
 
         with pytest.raises(web.HTTPInternalServerError):
-            await base.handle_service_errors(UnexpectedError(Mock()))
+            base.handle_service_errors(UnexpectedError(500, ''))
 
     async def test_other_exceptions_error(self):
         base = BaseController()
 
         with pytest.raises(ValueError):
-            await base.handle_service_errors(ValueError())
+            base.handle_service_errors(ValueError())
 
 
 class TestHandleBusinessErrors:

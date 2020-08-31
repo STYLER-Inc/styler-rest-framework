@@ -100,18 +100,19 @@ class HTTPHandler:
     async def _handle_http_errors(self, resp):
         """ Handles HTTP errors
         """
+        response_text = await resp.text()
         if resp.status == 400:
-            raise InvalidDataError(resp)
+            raise InvalidDataError(resp.status, response_text)
         elif resp.status == 401:
-            raise AuthenticationError(resp)
+            raise AuthenticationError(resp.status, response_text)
         elif resp.status == 402:
-            raise PaymentRequiredError(resp)
+            raise PaymentRequiredError(resp.status, response_text)
         elif resp.status == 403:
-            raise AuthorizationError(resp)
+            raise AuthorizationError(resp.status, response_text)
         elif resp.status == 404:
-            raise NotFoundError(resp)
+            raise NotFoundError(resp.status, response_text)
         elif resp.status == 500:
-            raise InternalServerError(resp)
+            raise InternalServerError(resp.status, response_text)
         else:
             logging.error('Unexpected response code: %s', resp.status)
-            raise UnexpectedError(resp)
+            raise UnexpectedError(resp.status, response_text)
