@@ -15,8 +15,12 @@ def session_aware(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         with session_scope.create(args[0].db_engine) as db_session:
-            kwargs['db_session'] = db_session
-            return func(*args, **kwargs)
+            try:
+                kwargs['db_session'] = db_session
+                return func(*args, **kwargs)
+            except:  # NOQA
+                db_session.close()
+                raise
     return wrapper
 
 
