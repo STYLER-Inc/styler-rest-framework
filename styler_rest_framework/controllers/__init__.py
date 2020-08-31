@@ -97,17 +97,15 @@ class BaseController:
         raise web.HTTPForbidden(
             content_type='application/json')
 
-    async def handle_service_errors(self, ex):
+    def handle_service_errors(self, ex):
         """ Default method for handling service related errors
         """
         if isinstance(ex, InvalidDataError):
-            data = await ex.json_body()
-            print(data)
-            self.bad_request(data.get('reason'))
+            self.bad_request(ex.json_body().get('reason'))
         elif isinstance(ex, AuthenticationError):
             self.unauthorized()
         elif isinstance(ex, PaymentRequiredError):
-            body = await ex.json_body()
+            body = ex.json_body()
             self.payment_required(body.get('code'), body.get('reason'))
         elif isinstance(ex, AuthorizationError):
             self.forbidden()
