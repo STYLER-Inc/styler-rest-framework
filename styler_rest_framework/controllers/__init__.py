@@ -15,9 +15,10 @@ from styler_rest_framework.exceptions.services import (
     UnexpectedError,
 )
 from styler_rest_framework.exceptions.business import (
-    ValidationError,
+    InternalError,
+    PermissionDeniedError,
     ResourceNotFoundError,
-    PermissionDeniedError
+    ValidationError,
 )
 from styler_rest_framework.controllers.request_scope import RequestScope
 
@@ -97,6 +98,13 @@ class BaseController:
         raise web.HTTPForbidden(
             content_type='application/json')
 
+    def internal_server_error(self, exception, msg=''):
+        """ Default response for Error code 500
+        """
+        logging.exception('Internal Server error: %s', str(exception))
+        raise web.HTTPInternalServerError(
+            content_type='application/json')
+
     def handle_service_errors(self, ex):
         """ Default method for handling service related errors
         """
@@ -112,9 +120,9 @@ class BaseController:
         elif isinstance(ex, NotFoundError):
             self.not_found()
         elif isinstance(ex, InternalServerError):
-            raise web.HTTPInternalServerError() from ex
+            self.internal_server_error(exception=ex)
         elif isinstance(ex, UnexpectedError):
-            raise web.HTTPInternalServerError() from ex
+            self.internal_server_error(exception=ex)
         else:
             raise ex
 
@@ -127,5 +135,7 @@ class BaseController:
             self.forbidden()
         elif isinstance(ex, ResourceNotFoundError):
             self.not_found()
+        elif isinstance(ex, InternalError):
+            self.internal_server_error(exception=ex)
         else:
             raise ex
