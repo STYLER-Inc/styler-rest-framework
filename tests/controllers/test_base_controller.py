@@ -16,8 +16,12 @@ from styler_rest_framework.exceptions.services import (
     PaymentRequiredError,
     UnexpectedError,
 )
-from styler_rest_framework.exceptions.business import \
-    ValidationError, ResourceNotFoundError, PermissionDeniedError
+from styler_rest_framework.exceptions.business import (
+    InternalError,
+    PermissionDeniedError,
+    ResourceNotFoundError,
+    ValidationError,
+)
 import pytest
 
 
@@ -124,6 +128,17 @@ class TestResponses:
         mocked_logger.assert_called_once()
         assert expected.value.status == 402
 
+    @patch('logging.exception')
+    def test_internal_server_error(self, mocked_logger):
+        """ Default HTTP 500 with errors
+        """
+        base = BaseController()
+
+        with pytest.raises(web.HTTPInternalServerError) as expected:
+            base.internal_server_error(ValueError())
+        mocked_logger.assert_called_once()
+        assert expected.value.status == 500
+
 
 class TestHandleServiceErrors:
     """ Tests for handle_service_errors
@@ -181,15 +196,21 @@ class TestHandleServiceErrors:
 
     async def test_internal_server_error(self):
         base = BaseController()
+        base.internal_server_error = MagicMock()
+        exception = InternalServerError(500, '')
 
-        with pytest.raises(web.HTTPInternalServerError):
-            base.handle_service_errors(InternalServerError(500, ''))
+        base.handle_service_errors(exception)
+
+        base.internal_server_error.assert_called_with(exception=exception)
 
     async def test_unexpected_error(self):
         base = BaseController()
+        base.internal_server_error = MagicMock()
+        exception = UnexpectedError(500, '')
 
-        with pytest.raises(web.HTTPInternalServerError):
-            base.handle_service_errors(UnexpectedError(500, ''))
+        base.handle_service_errors(exception)
+
+        base.internal_server_error.assert_called_with(exception=exception)
 
     async def test_other_exceptions_error(self):
         base = BaseController()
@@ -225,6 +246,15 @@ class TestHandleBusinessErrors:
         base.handle_business_errors(ResourceNotFoundError())
 
         base.not_found.assert_called_with()
+
+    def test_internal_error(self):
+        base = BaseController()
+        base.internal_server_error = MagicMock('aaa')
+        exception = InternalError()
+
+        base.handle_business_errors(exception)
+
+        base.internal_server_error.assert_called_with(exception=exception)
 
     def test_other_exceptions_error(self):
         base = BaseController()
