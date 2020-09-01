@@ -7,6 +7,11 @@ class BusinessError(Exception):  # pragma: no coverage
     """
 
 
+class InternalError(BusinessError):  # pragma: no coverage
+    """ Error raised when an unexpected error occurs
+    """
+
+
 class PermissionDeniedError(BusinessError):  # pragma: no coverage
     """ Error raised when the user has no access to the resource
     """
