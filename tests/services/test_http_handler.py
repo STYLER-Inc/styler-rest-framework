@@ -26,6 +26,9 @@ class IdentityMock:
     def trace_header(self):
         return {}
 
+    def localization(self):
+        return 'ja'
+
 
 class TestInit:
     """ Tests for init
