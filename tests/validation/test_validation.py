@@ -21,8 +21,8 @@ def test_validation():
 
     assert not result
     assert errors == {
-        'mymodel.age': 'Should be less than 100 (ja)',
-        'mymodel.name': 'Required field (ja)'
+        'mymodel.age': '100より小さい値にしてください',
+        'mymodel.name': '入力してください'
     }
 
 
