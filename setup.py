@@ -14,8 +14,8 @@ requirements = [
     'psycopg2-binary',
     'sqlalchemy-serializer',
     'styler-identity',
-    'opencensus',
-    'opencensus-ext-stackdriver',
+    'styler-middleware',
+    'styler-validation',
     'cachetools',
     'certifi',
     'chardet',
@@ -38,6 +38,7 @@ requirements = [
     'rsa',
     'six',
     'urllib3',
+    'google.cloud.logging',
 ]
 
 setup_requirements = ['pytest-runner', ]
