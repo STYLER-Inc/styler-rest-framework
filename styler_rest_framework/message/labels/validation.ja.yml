@@ -1,12 +1,12 @@
 ja:
-  invalid_value: Invalid value (ja)
-  required_value: Required field (ja)
-  greater_than: Should be greater than %{value} (ja)
-  greater_or_equal_than: Should be greater or equal than %{value} (ja)
-  less_than: Should be less than %{value} (ja)
-  less_or_equal_than: Should be less or equal than %{value} (ja)
-  positive_value: Must be positive (ja)
-  not_zero: Should not be zero (ja)
-  invalid_time: Invalid time format, should be in the format HH:MM (ja)
-  not_empty: Should not be empty (ja)
-  string_too_long: Should be no longer than %{value} characters (ja)
+  invalid_value: "不正な値です"
+  required_value: "入力してください"
+  greater_than: "%{value}より大きい値にしてください"
+  greater_or_equal_than: "%{value}以上の値にしてください"
+  less_than: "%{value}より小さい値にしてください"
+  less_or_equal_than: "%{value}以下の値にしてください"
+  positive_value: "正な数字入力してください"
+  not_zero: "ゼロ以外の値にしてください"
+  invalid_time: "時間のフォーマットはHH：MMが必要"
+  not_empty: "入力してください"
+  string_too_long: "%{value}文字以内で入力してください"
