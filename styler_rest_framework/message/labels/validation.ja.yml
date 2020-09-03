@@ -1,0 +1,12 @@
+ja:
+  invalid_value: "不正な値です"
+  required_value: "入力してください"
+  greater_than: "%{value}より大きい値にしてください"
+  greater_or_equal_than: "%{value}以上の値にしてください"
+  less_than: "%{value}より小さい値にしてください"
+  less_or_equal_than: "%{value}以下の値にしてください"
+  positive_value: "正な数字入力してください"
+  not_zero: "ゼロ以外の値にしてください"
+  invalid_time: "時間のフォーマットはHH：MMが必要"
+  not_empty: "入力してください"
+  string_too_long: "%{value}文字以内で入力してください"

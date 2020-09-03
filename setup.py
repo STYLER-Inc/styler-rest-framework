@@ -39,6 +39,7 @@ requirements = [
     'six',
     'urllib3',
     'google.cloud.logging',
+    'python-i18n[YAML]',
 ]
 
 setup_requirements = ['pytest-runner', ]

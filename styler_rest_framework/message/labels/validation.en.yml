@@ -1,0 +1,12 @@
+en:
+  invalid_value: Invalid value
+  required_value: Required field
+  greater_than: Should be greater than %{value}
+  greater_or_equal_than: Should be greater or equal than %{value}
+  less_than: Should be less than %{value}
+  less_or_equal_than: Should be less or equal than %{value}
+  positive_value: Must be positive
+  not_zero: Should not be zero
+  invalid_time: Invalid time format, should be in the format HH:MM
+  not_empty: Should not be empty
+  string_too_long: Should be no longer than %{value} characters
