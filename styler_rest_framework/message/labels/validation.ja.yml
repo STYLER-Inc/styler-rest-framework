@@ -1,0 +1,12 @@
+ja:
+  invalid_value: Invalid value (ja)
+  required_value: Required field (ja)
+  greater_than: Should be greater than %{value} (ja)
+  greater_or_equal_than: Should be greater or equal than %{value} (ja)
+  less_than: Should be less than %{value} (ja)
+  less_or_equal_than: Should be less or equal than %{value} (ja)
+  positive_value: Must be positive (ja)
+  not_zero: Should not be zero (ja)
+  invalid_time: Invalid time format, should be in the format HH:MM (ja)
+  not_empty: Should not be empty (ja)
+  string_too_long: Should be no longer than %{value} characters (ja)
