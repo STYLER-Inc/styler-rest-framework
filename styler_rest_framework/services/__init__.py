@@ -24,6 +24,7 @@ class HTTPHandler:
             headers = {}
         self.headers = {
             'Authorization': f'Bearer {identity.token()}',
+            **{'Accept-Language': identity.localization()},
             **identity.trace_header(),
             **headers
         }
