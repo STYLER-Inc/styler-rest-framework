@@ -40,6 +40,7 @@ requirements = [
     'urllib3',
     'google.cloud.logging',
     'python-i18n[YAML]',
+    'google-cloud-pubsub'
 ]
 
 setup_requirements = ['pytest-runner', ]
