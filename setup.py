@@ -23,7 +23,7 @@ requirements = [
     'google-auth',
     'google-cloud-core',
     'google-cloud-monitoring',
-    'google-cloud-trace',
+    'google-cloud-trace >= 0.20.0, < 1.0.0',
     'googleapis-common-protos',
     'grpcio',
     'idna',
@@ -40,6 +40,7 @@ requirements = [
     'urllib3',
     'google.cloud.logging',
     'python-i18n[YAML]',
+    'alembic',
 ]
 
 setup_requirements = ['pytest-runner', ]
