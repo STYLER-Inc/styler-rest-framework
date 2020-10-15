@@ -52,7 +52,7 @@ class TestCheckAndRetryMigration:
 
     @patch('logging.warning')
     def test_retry_failed(self, log_mock):
-        """ It should return without errors
+        """ It should raise migration error
         """
         migration.get_heads_version = Mock(return_value=['head'])
         migration.get_current_version = Mock(return_value='old_version')
