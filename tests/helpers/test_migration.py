@@ -16,7 +16,7 @@ class TestCheckAndRetryMigration:
         migration.get_heads_version = Mock(return_value=['head'])
         migration.get_current_version = Mock(return_value='head')
 
-        migration.check_and_retry_migration()
+        migration.check_and_retry_migration('mock_path')
 
         migration.get_heads_version.assert_called_once()
         migration.get_current_version.assert_called_once()
@@ -28,7 +28,7 @@ class TestCheckAndRetryMigration:
         migration.get_current_version = Mock(return_value='head')
 
         with pytest.raises(migration.MigrationError) as expected:
-            migration.check_and_retry_migration()
+            migration.check_and_retry_migration('mock_path')
 
         assert "multiple heads detected!" in str(expected.value)
 
@@ -42,7 +42,7 @@ class TestCheckAndRetryMigration:
         migration.get_heads_version = Mock(return_value=['head'])
         migration.get_current_version = Mock(return_value='old_version')
 
-        migration.check_and_retry_migration()
+        migration.check_and_retry_migration('mock_path')
 
         migration.get_heads_version.assert_called_once()
         migration.get_current_version.assert_called_once()
@@ -60,10 +60,17 @@ class TestCheckAndRetryMigration:
         with patch('alembic.command.upgrade',
                    side_effect=Exception()) as upgrade_mock:
             with pytest.raises(migration.MigrationError) as expected:
-                migration.check_and_retry_migration(max_retry_count=3)
+                migration.check_and_retry_migration('mock_path',
+                                                    max_retry_count=3)
 
             migration.get_heads_version.assert_called_once()
             migration.get_current_version.assert_called_once()
             assert 3 == upgrade_mock.call_count
             assert "Could not execute alembic migrations." in str(
                 expected.value)
+
+    def test_missing_parameter(self):
+        with pytest.raises(migration.MigrationError) as expected:
+            migration.check_and_retry_migration('')
+
+        assert "parameter required: cfg_path" in str(expected.value)

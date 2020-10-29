@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 from random import randint
 
@@ -52,8 +51,9 @@ def retry_migration(alembic_cfg, count, max_count, max_backoff=32):
         retry_migration(alembic_cfg, count, max_count, max_backoff)
 
 
-def check_and_retry_migration(max_retry_count=3):
-    cfg_path = os.path.join(os.path.dirname(__file__), 'alembic.ini')
+def check_and_retry_migration(cfg_path, max_retry_count=3):
+    if not cfg_path:
+        raise MigrationError('parameter required: cfg_path')
     alembic_cfg = Config(cfg_path)
     heads = get_heads_version(alembic_cfg)
     if len(heads) > 1:
@@ -64,7 +64,3 @@ def check_and_retry_migration(max_retry_count=3):
     logging.warning('alembic version is not up-to-date, \
         will retry migration...')
     retry_migration(alembic_cfg, 0, max_retry_count)
-
-
-if __name__ == '__main__':
-    check_and_retry_migration()
