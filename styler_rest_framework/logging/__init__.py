@@ -7,10 +7,10 @@ import time
 import google.cloud.logging
 
 
-def setup_logging(level=logging.INFO):  # pragma: no coverage
+def setup_logging(level=logging.INFO, sleep=5):  # pragma: no coverage
     """ Setup logging
     """
-    time.sleep(5)
+    time.sleep(sleep)
     client = google.cloud.logging.Client()
     excluded_logger_defaults = (
         "google.cloud",
