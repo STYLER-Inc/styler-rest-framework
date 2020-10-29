@@ -1,14 +1,16 @@
 """ Configures logging with stackdriver
 """
 
-import logging  # pragma: no coverage
+import logging
+import time
 
-import google.cloud.logging  # pragma: no coverage
+import google.cloud.logging
 
 
 def setup_logging(level=logging.INFO):  # pragma: no coverage
     """ Setup logging
     """
+    time.sleep(5)
     client = google.cloud.logging.Client()
     excluded_logger_defaults = (
         "google.cloud",
