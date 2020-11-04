@@ -69,7 +69,7 @@ class TestResponses:
             'pagination': 'aaa'
         })
 
-    @patch('logging.error')
+    @patch('logging.warning')
     def test_bad_request(self, mocked_logger):
         """ Default HTTP 400 with errors
         """
@@ -84,7 +84,7 @@ class TestResponses:
         resp = json.loads(expected.value.text)
         assert resp['reason'] == errors
 
-    @patch('logging.error')
+    @patch('logging.warning')
     def test_not_found(self, mocked_logger):
         """ Default HTTP 404 with errors
         """
@@ -95,7 +95,7 @@ class TestResponses:
         mocked_logger.assert_called_once()
         assert expected.value.status == 404
 
-    @patch('logging.error')
+    @patch('logging.warning')
     def test_forbidden(self, mocked_logger):
         """ Default HTTP 403 with errors
         """
@@ -106,7 +106,7 @@ class TestResponses:
         mocked_logger.assert_called_once()
         assert expected.value.status == 403
 
-    @patch('logging.error')
+    @patch('logging.warning')
     def test_unauthorized(self, mocked_logger):
         """ Default HTTP 401 with errors
         """
@@ -117,7 +117,7 @@ class TestResponses:
         mocked_logger.assert_called_once()
         assert expected.value.status == 401
 
-    @patch('logging.error')
+    @patch('logging.warning')
     def test_payment_required(self, mocked_logger):
         """ Default HTTP 402 with errors
         """
