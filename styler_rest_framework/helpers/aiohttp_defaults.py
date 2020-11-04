@@ -11,8 +11,10 @@ def google_error_reporting_handler():  # pragma: no coverage
     try:
         from google.cloud import error_reporting
         client = error_reporting.Client()
+
         def error_handler(request, exc):
             client.report_exception
+
         return error_handler
     except Exception:
         logging.warning(
