@@ -2,7 +2,6 @@
 """
 
 import logging
-import time
 
 import google.cloud.logging
 
