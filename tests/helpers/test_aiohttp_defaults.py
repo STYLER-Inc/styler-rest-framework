@@ -3,7 +3,7 @@
 
 from unittest.mock import Mock
 
-from styler_rest_framework.helpers import server_defaults
+from styler_rest_framework.helpers import aiohttp_defaults
 
 
 class TestAddMiddlewares:
@@ -11,7 +11,7 @@ class TestAddMiddlewares:
         app = Mock()
         app.middlewares = []
 
-        server_defaults.add_middlewares(app)
+        aiohttp_defaults.add_middlewares(app)
 
         assert len(app.middlewares) == 2
         assert callable(app.middlewares[0])
