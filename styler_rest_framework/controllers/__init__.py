@@ -60,7 +60,7 @@ class BaseController:
             'code': code,
             'reason': reason
         }
-        logging.error('Payment required error: %s', error)
+        logging.warning('Payment required error: %s', error)
         raise web.HTTPPaymentRequired(
             text=json.dumps(error),
             content_type='application/json')
@@ -72,7 +72,7 @@ class BaseController:
             'code': code,
             'reason': errors
         }
-        logging.error('Bad request error: %s', error)
+        logging.warning('Bad request error: %s', error)
         raise web.HTTPBadRequest(
             text=json.dumps(error),
             content_type='application/json')
@@ -80,21 +80,21 @@ class BaseController:
     def not_found(self, msg=''):
         """ Default response for Error code 404
         """
-        logging.error('Not found error error: %s', msg)
+        logging.warning('Not found error error: %s', msg)
         raise web.HTTPNotFound(
             content_type='application/json')
 
     def unauthorized(self, msg=''):
         """ Default response for Error code 401
         """
-        logging.error('Unauthorized error: %s', msg)
+        logging.warning('Unauthorized error: %s', msg)
         raise web.HTTPUnauthorized(
             content_type='application/json')
 
     def forbidden(self, msg=''):
         """ Default response for Error code 403
         """
-        logging.error('Forbidden error: %s', msg)
+        logging.warning('Forbidden error: %s', msg)
         raise web.HTTPForbidden(
             content_type='application/json')
 
