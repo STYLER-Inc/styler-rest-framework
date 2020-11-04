@@ -20,7 +20,7 @@ from styler_rest_framework.exceptions.business import (
     ResourceNotFoundError,
     ValidationError,
 )
-from styler_rest_framework.controllers.request_scope import RequestScope
+from styler_rest_framework.api.request_scope import RequestScope
 
 
 class BaseController:
@@ -31,7 +31,7 @@ class BaseController:
         """ Get the identity of the logged user
         """
         try:
-            return RequestScope(request)
+            return RequestScope.from_request(request)
         except ValueError:
             self.bad_request({'jwt': 'invalid'})
 

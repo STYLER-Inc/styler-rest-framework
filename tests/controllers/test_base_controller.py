@@ -6,7 +6,7 @@ import json
 
 from aiohttp import web
 from styler_rest_framework.controllers import BaseController
-from styler_rest_framework.controllers.request_scope import RequestScope
+from styler_rest_framework.api.request_scope import RequestScope
 from styler_rest_framework.exceptions.services import (
     AuthenticationError,
     AuthorizationError,
