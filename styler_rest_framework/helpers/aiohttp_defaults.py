@@ -7,33 +7,41 @@ from styler_middleware import handle_exceptions, handle_invalid_json
 from styler_rest_framework.logging import setup_logging
 
 
-def google_error_reporting_handler():  # pragma: no coverage
+def google_error_reporting_handler(service=None):  # pragma: no coverage
     try:
         from google.cloud import error_reporting
-        client = error_reporting.Client()
+        client = error_reporting.Client(service=service)
 
         def error_handler(request, exc):
-            client.report_exception
+            http_context = error_reporting.HTTPContext(
+                method=request.method, url=request.path)
+            client.report_exception(http_context=http_context)
 
         return error_handler
     except Exception:
-        logging.warning(
-            '''
-            Could not find error reporting,
-            please run pip install google-cloud-error-reporting
-            '''
-        )
+        logging.warning('Could not find start error reporting client')
         return None
 
 
-def add_middlewares(app, error_handler=None):
+def add_middlewares(
+            app,
+            error_handler=None,
+            service=None,
+            handle_exceptions_args=None,
+            handle_invalid_json_args=None
+        ):
     """ Append default middlewares
     """
-    if not error_handler:
-        error_handler = google_error_reporting_handler()
+    handle_exceptions_args = handle_exceptions_args or {}
+    handle_invalid_json_args = handle_invalid_json_args or {}
+    error_handler = error_handler or google_error_reporting_handler(
+        service=service)
     app.middlewares.extend([
-        handle_exceptions(error_handler=error_handler),
-        handle_invalid_json()
+        handle_exceptions(
+            error_handler=error_handler,
+            **handle_exceptions_args
+        ),
+        handle_invalid_json(**handle_invalid_json_args)
     ])
 
 
