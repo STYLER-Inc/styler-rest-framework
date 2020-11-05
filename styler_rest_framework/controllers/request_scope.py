@@ -1,15 +1,24 @@
 """ Request scope handles the identification of the user and request options
 """
 
+import warnings
+
 from styler_identity import Identity
 
 
 class RequestScope(Identity):
-    """ Carries information about the request scope
+    """ Carries information about the request scope. (deprecated)
     """
     def __init__(self, request):
+        warnings.warn(
+            '''
+            This class is deprecated and will be removed in a future release.
+            Use RequestScope from styler_rest_framework.api.request_scope
+            module instead.
+            '''
+        )
         self.request = request
-        token = token = get_token_auth_header(request)
+        token = get_token_auth_header(request)
         super().__init__(token)
 
     def localization(self):
