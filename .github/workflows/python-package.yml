@@ -28,13 +28,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
     - name: Test with tox
-      run: tox --result-json=test_result.json
+      run: tox
     - name: Upload Unit Test Results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: Unit Test Results (Python ${{ matrix.python-version }})
-        path: test_result.json
+        path: pytest-result.xml
 
   publish-test-results:
     name: "Publish Unit Tests Results"
@@ -53,4 +53,4 @@ jobs:
         with:
           check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: test_result.json
+          files: pytest-result.xml
