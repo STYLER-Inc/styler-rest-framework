@@ -6,6 +6,7 @@ import json
 import logging
 
 from styler_rest_framework.logging import error_reporting
+from styler_rest_framework.config import defaults
 
 
 class MessageRouter:
@@ -15,7 +16,8 @@ class MessageRouter:
     def __init__(self, error_handler=None):
         self._routes = {}
         self.error_handler = error_handler or \
-            error_reporting.google_error_reporting_handler()
+            error_reporting.google_error_reporting_handler(
+                service=defaults.ERROR_HANDLER_SERVICE)
 
     def handle_message(self, message: Any) -> None:
         """ Route the incoming messages
