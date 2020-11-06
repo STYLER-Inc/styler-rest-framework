@@ -53,4 +53,4 @@ jobs:
         with:
           check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: pytest-result.xml
+          files: ./**/pytest-result.xml
