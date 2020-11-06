@@ -29,12 +29,16 @@ jobs:
         pip install tox tox-gh-actions
     - name: Test with tox
       run: tox
-    - name: Upload Unit Test Results
-      if: always()
+    - name: Upload tests
       uses: actions/upload-artifact@v2
       with:
-        name: Unit Test Results (Python ${{ matrix.python-version }})
+        name: Test Results (Python ${{ matrix.python-version }})
         path: pytest-result.xml
+    - name: Show coverage
+      uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/lcov.info
 
   publish-test-results:
     name: "Publish Unit Tests Results"
