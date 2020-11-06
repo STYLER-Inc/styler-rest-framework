@@ -23,7 +23,7 @@ requirements = [
     'google-auth',
     'google-cloud-core',
     'google-cloud-monitoring',
-    'google-cloud-trace',
+    'google-cloud-trace >= 0.20.0, < 1.0.0',
     'googleapis-common-protos',
     'grpcio',
     'idna',
@@ -40,7 +40,7 @@ requirements = [
     'urllib3',
     'google.cloud.logging',
     'python-i18n[YAML]',
-    'google-cloud-pubsub'
+    'alembic',
 ]
 
 setup_requirements = ['pytest-runner', ]
@@ -71,6 +71,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/STYLER-Inc/styler-rest-framework',
-    version='0.5.0',
+    version='0.10.0',
     zip_safe=False,
 )

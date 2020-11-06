@@ -1,9 +1,9 @@
 """ Configures logging with stackdriver
 """
 
-import logging  # pragma: no coverage
+import logging
 
-import google.cloud.logging  # pragma: no coverage
+import google.cloud.logging
 
 
 def setup_logging(level=logging.INFO):  # pragma: no coverage
