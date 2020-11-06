@@ -34,11 +34,6 @@ jobs:
       with:
         name: Test Results (Python ${{ matrix.python-version }})
         path: pytest-result.xml
-    - name: Show coverage
-      uses: romeovs/lcov-reporter-action@v0.2.16
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: htmlcov/index.html
 
   publish-test-results:
     name: "Publish Unit Tests Results"
