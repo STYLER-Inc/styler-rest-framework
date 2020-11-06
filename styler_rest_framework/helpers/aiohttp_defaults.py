@@ -4,6 +4,7 @@
 import logging
 
 from styler_middleware import handle_exceptions, handle_invalid_json
+from styler_rest_framework.config import defaults
 from styler_rest_framework.logging import setup_logging
 from styler_rest_framework.logging.error_reporting import (
     google_error_reporting_handler
@@ -12,8 +13,9 @@ from styler_rest_framework.logging.error_reporting import (
 
 def api_error_reporting_handler(service=None):  # pragma: no coverage
     try:
+        service_name = service or defaults.ERROR_HANDLER_SERVICE
         from google.cloud import error_reporting
-        handler = google_error_reporting_handler(service=service)
+        handler = google_error_reporting_handler(service=service_name)
 
         def error_handler(request, exc):
             http_context = error_reporting.HTTPContext(
