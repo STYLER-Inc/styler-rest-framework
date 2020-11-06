@@ -5,21 +5,24 @@ import logging
 
 from styler_middleware import handle_exceptions, handle_invalid_json
 from styler_rest_framework.logging import setup_logging
+from styler_rest_framework.logging.error_reporting import (
+    google_error_reporting_handler
+)
 
 
-def google_error_reporting_handler(service=None):  # pragma: no coverage
+def api_error_reporting_handler(service=None):  # pragma: no coverage
     try:
         from google.cloud import error_reporting
-        client = error_reporting.Client(service=service)
+        handler = google_error_reporting_handler(service=service)
 
         def error_handler(request, exc):
             http_context = error_reporting.HTTPContext(
                 method=request.method, url=request.path)
-            client.report_exception(http_context=http_context)
+            handler(http_context=http_context)
 
         return error_handler
     except Exception:
-        logging.warning('Could not find start error reporting client')
+        logging.warning('Could not find start api error reporting')
         return None
 
 
@@ -34,7 +37,7 @@ def add_middlewares(
     """
     handle_exceptions_args = handle_exceptions_args or {}
     handle_invalid_json_args = handle_invalid_json_args or {}
-    error_handler = error_handler or google_error_reporting_handler(
+    error_handler = error_handler or api_error_reporting_handler(
         service=service)
     app.middlewares.extend([
         handle_exceptions(
