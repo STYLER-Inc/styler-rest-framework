@@ -32,7 +32,7 @@ def add_middlewares(
             error_handler=None,
             service=None,
             handle_exceptions_args=None
-        ):  # pragma: no coverage
+        ):
     """ Append default exception middleware
 
         Args:
