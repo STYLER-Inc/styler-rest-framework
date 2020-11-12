@@ -41,6 +41,8 @@ requirements = [
     'google.cloud.logging',
     'python-i18n[YAML]',
     'alembic',
+    'fastapi',
+    'pydantic',
 ]
 
 setup_requirements = ['pytest-runner', ]
