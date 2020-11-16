@@ -69,7 +69,10 @@ def setup_validation_handler(
             field = '.'.join(err['loc'][1:]) or 'error'
             err_type = err['type'].replace('.', '_')
             errors[field] = message.get(
-                err_type, locale=locale, **err.get('ctx', {}))
+                f'pydantic_validation.{err_type}',
+                locale=locale,
+                **err.get('ctx', {})
+            )
 
         return JSONResponse(
             status_code=validation_error_code,
