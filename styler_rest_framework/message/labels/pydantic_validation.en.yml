@@ -1,0 +1,45 @@
+en:
+  type_error_arbitrary_type: Invalid
+  type_error_bool: Invalid
+  type_error_bytes: Invalid
+  type_error_callable: Invalid
+  type_error_class: Invalid
+  type_error_dataclass: Invalid
+  type_error_decimal: Invalid
+  type_error_deque: Invalid
+  type_error_dict: Invalid
+  type_error_enum_instance: Invalid
+  type_error_enum: Invalid
+  type_error_float: Invalid
+  type_error_frozenset: Invalid
+  type_error_hashable: Invalid
+  type_error_int_enum_instance: Invalid
+  type_error_integer: Invalid
+  type_error_iterable: Invalid
+  type_error_json: Invalid
+  type_error_list: Invalid
+  type_error_none_allowed: Invalid
+  type_error_none_not_allowed: Invalid
+  type_error_path: Invalid
+  type_error_pyobject: Invalid
+  type_error_pydantictype: Invalid
+  type_error_sequence: Invalid
+  type_error_set: Invalid
+  type_error_str: Invalid
+  type_error_subclass: Invalid
+  type_error_tuple: Invalid
+  type_error_uuid: Invalid
+  value_error_any_str_max_length: Must be within %{limit_value} characters long
+  value_error_date: Invalid date format
+  value_error_datetime: Invalid datetime format
+  value_error_decimal: Invalid decimal
+  value_error_duration: Invalid duration
+  value_error_email: Invalid email
+  value_error_json: Invalid JSON
+  value_error_missing: Required
+  value_error_number_not_ge: Must be greater than or equal to %{limit_value}
+  value_error_number_not_gt: Must be greater than %{limit_value}
+  value_error_number_not_le: Must be less than or equal to %{limit_value}
+  value_error_number_not_lt: Must be less than %{limit_value}
+  value_error_strictbool: Invalid boolean
+  value_error_time: Invalid time format

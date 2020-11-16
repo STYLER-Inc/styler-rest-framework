@@ -3,6 +3,11 @@
 
 import logging
 
+from fastapi import Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
+from styler_rest_framework import message
 from styler_rest_framework.config import defaults
 from styler_rest_framework.middlewares.fastapi import exception_middleware
 from styler_rest_framework.logging.error_reporting import (
@@ -47,3 +52,56 @@ def add_middlewares(
 
     exception_middleware.add_exception_middleware(
         app, error_handler=error_handler, **handle_exceptions_args)
+
+
+def setup_validation_handler(
+            app,
+            validation_error_code=422,
+            validation_code='validation_error'):  # pragma: no coverage
+    """ Set the validation error by overriding the RequestValidationError
+    """
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(
+            request: Request, exc: RequestValidationError):
+        locale = request.headers.get('Accept-Language', 'ja')
+        errors = {}
+        for err in exc.errors():
+            field = '.'.join(err['loc'][1:]) or 'error'
+            err_type = err['type'].replace('.', '_')
+            errors[field] = message.get(
+                err_type, locale=locale, **err.get('ctx', {}))
+
+        return JSONResponse(
+            status_code=validation_error_code,
+            content={'code': validation_code, 'reason': errors},
+        )
+
+    def custom_openapi():
+        if app.openapi_schema:
+            return app.openapi_schema
+        openapi_schema = get_openapi(
+            title=defaults.SERVICE_NAME,
+            version=defaults.VERSION,
+            routes=app.routes
+        )
+        openapi_schema['components']['schemas'].pop('ValidationError')
+        openapi_schema['components']['schemas']['HTTPValidationError'] = {
+            'title': 'ValidationError',
+            'type': 'object',
+            'properties': {
+                'code': {
+                    'type': 'string'
+                },
+                'reason': {
+                    'type': 'object',
+                    'additionalProperties': {
+                        'type': 'string'
+                    }
+                }
+            },
+            'required': ['code', 'reason']
+        }
+        app.openapi_schema = openapi_schema
+        return app.openapi_schema
+
+    app.openapi = custom_openapi
