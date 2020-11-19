@@ -47,6 +47,12 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+docs:
+	sphinx-apidoc -o docs/ styler_rest_framework
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+	$(BROWSER) docs/_build/html/index.html
+
 lint: ## check style with flake8
 	flake8 styler_rest_framework tests
 
