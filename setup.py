@@ -43,6 +43,7 @@ requirements = [
     'alembic',
     'fastapi',
     'pydantic',
+    'pycryptodome',
 ]
 
 setup_requirements = ['pytest-runner', ]
