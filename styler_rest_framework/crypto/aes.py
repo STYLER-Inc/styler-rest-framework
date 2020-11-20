@@ -3,7 +3,7 @@
 
 from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Hash import SHA512
+from Crypto.Hash import SHA256
 from Crypto.Random import get_random_bytes
 
 
@@ -26,7 +26,7 @@ def encrypt(key: str, data: str):
         raise ValueError('Data is missing')
     salt = get_random_bytes(40)
     derived_key = PBKDF2(
-        key, salt, 16, count=1000000, hmac_hash_module=SHA512)
+        key, salt, 16, count=1000, hmac_hash_module=SHA256)
     cipher = AES.new(derived_key, AES.MODE_EAX)
     ciphertext, tag = cipher.encrypt_and_digest(data.encode())
     return ".".join([x.hex() for x in [ciphertext, cipher.nonce, tag, salt]])
@@ -50,7 +50,7 @@ def decrypt(key: bytes, data: str):
             bytes.fromhex(v) for v in data.split('.')
         ]
         derived_key = PBKDF2(
-            key, salt, 16, count=1000000, hmac_hash_module=SHA512)
+            key, salt, 16, count=1000, hmac_hash_module=SHA256)
         cipher = AES.new(derived_key, AES.MODE_EAX, nonce=nonce)
         plaintext = cipher.decrypt_and_verify(ciphertext, tag)
         return plaintext.decode('utf-8')
