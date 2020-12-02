@@ -38,7 +38,7 @@ requirements = [
     'rsa',
     'six',
     'urllib3',
-    'google.cloud.logging',
+    'google-cloud-logging < 2.0.0',
     'python-i18n[YAML]',
     'alembic',
     'fastapi',
