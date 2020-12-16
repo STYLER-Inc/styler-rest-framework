@@ -259,6 +259,14 @@ class TestHandleBusinessErrors:
 
         base.not_found.assert_called_with()
 
+    def test_conflict_error(self):
+        base = BaseController()
+        base.conflict = MagicMock('aaa')
+
+        base.handle_business_errors(ConflictError())
+
+        base.conflict.assert_called_with()
+
     def test_internal_error(self):
         base = BaseController()
         base.internal_server_error = MagicMock('aaa')
