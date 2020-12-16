@@ -28,3 +28,12 @@ class ValidationError(BusinessError):   # pragma: no coverage
     def __init__(self, errors):
         super().__init__()
         self.errors = errors
+
+
+class ConflictError(BusinessError):
+    """ Error raised when request could not be completed due to a conflict
+        with the current state of the resource
+    """
+    def __init__(self, msg):
+        super().__init__()
+        self.msg = msg
