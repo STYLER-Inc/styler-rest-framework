@@ -19,18 +19,18 @@ class TestStandard:
     def test_include_all_standard_codes(self):
         result = responses.standard()
 
-        assert all([code in result for code in (400, 401, 403, 404)])
+        assert all([code in result for code in (400, 401, 403, 404, 409)])
 
     def test_include_none_if_invalid_code(self):
         result = responses.standard(486)
 
-        assert all([code not in result for code in (400, 401, 403, 404)])
+        assert all([code not in result for code in (400, 401, 403, 404, 409)])
 
     def test_include_only_desired_codes(self):
         result = responses.standard(401, 404)
 
         assert all([code in result for code in (401, 404)])
-        assert all([code not in result for code in (400, 403)])
+        assert all([code not in result for code in (400, 403, 409)])
 
 
 class TestResponses:
@@ -41,6 +41,7 @@ class TestResponses:
         (responses.unauthorized, 401),
         (responses.forbidden, 403),
         (responses.not_found, 404),
+        (responses.conflict, 409)
     ]
 
     @pytest.mark.parametrize('method,expected', cases)

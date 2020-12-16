@@ -21,6 +21,7 @@ from styler_rest_framework.exceptions.business import (
     PermissionDeniedError,
     ResourceNotFoundError,
     ValidationError,
+    ConflictError
 )
 import pytest
 
@@ -105,6 +106,17 @@ class TestResponses:
             base.forbidden()
         mocked_logger.assert_called_once()
         assert expected.value.status == 403
+
+    @patch('logging.warning')
+    def test_conflict(self, mocked_logger):
+        """ Default HTTP 409 with errors
+        """
+        base = BaseController()
+
+        with pytest.raises(web.HTTPConflict) as expected:
+            base.conflict()
+        mocked_logger.assert_called_once()
+        assert expected.value.status == 409
 
     @patch('logging.warning')
     def test_unauthorized(self, mocked_logger):

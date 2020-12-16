@@ -91,6 +91,13 @@ class BaseController:
         raise web.HTTPUnauthorized(
             content_type='application/json')
 
+    def conflict(self, msg=''):
+        """ Default response for Error code 409
+        """
+        logging.warning('Conflict error: %s', msg)
+        raise web.HTTPConflict(
+            content_type='application/json')
+
     def forbidden(self, msg=''):
         """ Default response for Error code 403
         """
