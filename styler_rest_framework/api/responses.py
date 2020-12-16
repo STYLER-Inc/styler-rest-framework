@@ -8,19 +8,21 @@ from styler_rest_framework.schemas.error import (
     HTTP401Error,
     HTTP403Error,
     HTTP404Error,
+    HTTP409Error
 )
 from fastapi import HTTPException
 from styler_rest_framework.exceptions.business import (
     PermissionDeniedError,
     ResourceNotFoundError,
     ValidationError,
+    ConflictError
 )
 
 
 def standard(*codes) -> Dict:
     """ Generate the default configuration for error codes
     """
-    codes = codes or (400, 401, 403, 404)
+    codes = codes or (400, 401, 403, 404, 409)
     responses = {}
     if 400 in codes:
         responses[400] = {'model': HTTP400Error}
@@ -30,6 +32,8 @@ def standard(*codes) -> Dict:
         responses[403] = {'model': HTTP403Error}
     if 404 in codes:
         responses[404] = {'model': HTTP404Error}
+    if 409 in codes:
+        responses[409] = {'model': HTTP409Error}
     return responses
 
 
@@ -60,6 +64,13 @@ def unauthorized(msg=None):
     raise HTTPException(status_code=401, detail=msg)
 
 
+def conflict(msg=None):
+    """ Return HTTP 409 error
+    """
+    msg = msg or 'Resource conflict'
+    raise HTTPException(status_code=409, detail=msg)
+
+
 def internal_server_error(exception, msg='An error has occurred'):
     """ Return HTTP 500 error
     """
@@ -76,5 +87,7 @@ def handle_business_errors(exception: Exception) -> None:
         not_found()
     elif isinstance(exception, ValidationError):
         bad_request(exception.errors)
+    elif isinstance(exception, ConflictError):
+        conflict(exception.msg)
     else:
         internal_server_error(exception)

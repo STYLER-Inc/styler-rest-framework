@@ -26,3 +26,9 @@ class HTTP404Error(BaseModel):
     """ Raised when handling HTTPExceptions with code 404
     """
     detail: str
+
+
+class HTTP409Error(BaseModel):
+    """ Raised when handling HTTPExceptions with code 409
+    """
+    detail: str
