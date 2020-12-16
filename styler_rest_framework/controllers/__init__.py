@@ -19,6 +19,7 @@ from styler_rest_framework.exceptions.business import (
     PermissionDeniedError,
     ResourceNotFoundError,
     ValidationError,
+    ConflictError
 )
 from styler_rest_framework.api.request_scope import RequestScope
 
@@ -142,6 +143,8 @@ class BaseController:
             self.forbidden()
         elif isinstance(ex, ResourceNotFoundError):
             self.not_found()
+        elif isinstance(ex, ConflictError):
+            self.conflict()
         elif isinstance(ex, InternalError):
             self.internal_server_error(exception=ex)
         else:

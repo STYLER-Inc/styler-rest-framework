@@ -263,7 +263,7 @@ class TestHandleBusinessErrors:
         base = BaseController()
         base.conflict = MagicMock('aaa')
 
-        base.handle_business_errors(ConflictError())
+        base.handle_business_errors(ConflictError('conflict'))
 
         base.conflict.assert_called_with()
 
