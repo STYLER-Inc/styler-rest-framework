@@ -9,6 +9,7 @@ from styler_rest_framework.exceptions.business import (
     PermissionDeniedError,
     ResourceNotFoundError,
     ValidationError,
+    ConflictError
 )
 import pytest
 
@@ -75,6 +76,7 @@ class TestHandleBusinessException:
         (ValidationError, {'error': 'something'},  responses.bad_request),
         (PermissionDeniedError, None,  responses.forbidden),
         (ResourceNotFoundError, None,  responses.not_found),
+        (ConflictError, 'conflict',  responses.conflict),
     ]
 
     @pytest.mark.parametrize('exp_type,args,expected', cases)

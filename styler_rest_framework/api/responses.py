@@ -15,6 +15,7 @@ from styler_rest_framework.exceptions.business import (
     PermissionDeniedError,
     ResourceNotFoundError,
     ValidationError,
+    ConflictError
 )
 
 
