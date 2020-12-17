@@ -67,7 +67,10 @@ class TestResponses:
             responses.bad_request({'error': 'my error'})
 
         assert exp.value.status_code == 400
-        assert exp.value.detail == {'error': 'my error'}
+        assert exp.value.detail == {
+            'code': 'validation_error',
+            'reason': {'error': 'my error'}
+        }
 
     def test_payment_required(self):
         with pytest.raises(HTTPException) as exp:
