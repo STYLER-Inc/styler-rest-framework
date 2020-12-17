@@ -14,15 +14,11 @@ class PaymentErrorCode(str, Enum):
     unsupported_card = 'unsupported_card'
 
 
-class PaymentRequiredDetail(BaseModel):
-    code: PaymentErrorCode
-    reason: str
-
-
 class HTTP400Error(BaseModel):
     """ Raised when handling HTTPExceptions with code 400
     """
-    detail: Dict[str, str]
+    code: str
+    reason: Dict[str, str]
 
 
 class HTTP401Error(BaseModel):
@@ -33,22 +29,20 @@ class HTTP401Error(BaseModel):
 class HTTP402Error(BaseModel):
     """ Returned by istio
     """
-    detail: PaymentRequiredDetail
+    code: PaymentErrorCode
+    reason: str
 
 
 class HTTP403Error(BaseModel):
     """ Raised when handling HTTPExceptions with code 403
     """
-    detail: str
 
 
 class HTTP404Error(BaseModel):
     """ Raised when handling HTTPExceptions with code 404
     """
-    detail: str
 
 
 class HTTP409Error(BaseModel):
     """ Raised when handling HTTPExceptions with code 409
     """
-    detail: str
