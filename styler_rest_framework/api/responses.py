@@ -47,10 +47,13 @@ def standard(*codes) -> Dict:
     return responses
 
 
-def bad_request(errors: Dict[str, str]):
+def bad_request(errors: Dict[str, str], code='validation_error'):
     """ Return HTTP 400 error
     """
-    raise HTTPException(status_code=400, detail=errors)
+    raise HTTPException(status_code=400, detail={
+        'code': code,
+        'reason': errors,
+    })
 
 
 def payment_required(code: str, reason: str):
@@ -58,7 +61,7 @@ def payment_required(code: str, reason: str):
     """
     raise HTTPException(status_code=402, detail={
         'code': code,
-        'reason': reason
+        'reason': reason,
     })
 
 
