@@ -21,11 +21,9 @@ from styler_rest_framework.exceptions.business import (
 from styler_rest_framework.exceptions.services import (
     AuthenticationError,
     AuthorizationError,
-    InternalServerError,
     InvalidDataError,
     NotFoundError,
     PaymentRequiredError,
-    UnexpectedError,
 )
 
 
