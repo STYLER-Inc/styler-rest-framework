@@ -38,11 +38,12 @@ requirements = [
     'rsa',
     'six',
     'urllib3',
-    'google.cloud.logging',
+    'google-cloud-logging < 2.0.0',
     'python-i18n[YAML]',
     'alembic',
     'fastapi',
     'pydantic',
+    'pycryptodome',
 ]
 
 setup_requirements = ['pytest-runner', ]
@@ -73,6 +74,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/STYLER-Inc/styler-rest-framework',
-    version='1.0.1',
+    version='1.4.2',
     zip_safe=False,
 )

@@ -7,6 +7,7 @@ from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from styler_rest_framework import message
 from styler_rest_framework.config import defaults
 from styler_rest_framework.middlewares.fastapi import exception_middleware
@@ -108,3 +109,14 @@ def setup_validation_handler(
         return app.openapi_schema
 
     app.openapi = custom_openapi
+
+
+def setup_standard_error_format(app):  # pragma: no coverage
+    """ Set the validation error by overriding the HTTPException
+    """
+    @app.exception_handler(StarletteHTTPException)
+    async def http_exception_handler(r: Request, exc: StarletteHTTPException):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=exc.detail,
+        )
