@@ -21,7 +21,11 @@ class RequestScope(Identity):
         super().__init__(token)
 
     def localization(self):
-        # Also 'ja' when None is passed.
+        """ Gets the language option
+            By default, `ja` is returned.
+            
+            :Return: ISO 639-1 code of the language
+        """
         return self.accept_language or 'ja'
 
     def trace_header(self):
