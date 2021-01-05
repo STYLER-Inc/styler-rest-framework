@@ -12,7 +12,6 @@ styler\_rest\_framework.tracing.tracing module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

@@ -12,7 +12,6 @@ styler\_rest\_framework.config.defaults module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

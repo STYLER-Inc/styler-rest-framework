@@ -20,7 +20,6 @@ styler\_rest\_framework.datasource.session\_scope module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

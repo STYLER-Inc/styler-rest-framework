@@ -11,6 +11,7 @@ Subpackages
    styler_rest_framework.business
    styler_rest_framework.config
    styler_rest_framework.controllers
+   styler_rest_framework.crypto
    styler_rest_framework.datasource
    styler_rest_framework.exceptions
    styler_rest_framework.helpers
@@ -18,6 +19,7 @@ Subpackages
    styler_rest_framework.message
    styler_rest_framework.middlewares
    styler_rest_framework.pubsub
+   styler_rest_framework.schemas
    styler_rest_framework.services
    styler_rest_framework.tracing
    styler_rest_framework.validation

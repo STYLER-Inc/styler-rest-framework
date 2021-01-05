@@ -3,17 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Styler Rest Framework's documentation!
-=================================================
+Welcome to Styler Rest Framework
+================================
+
+Styler Rest Framework is not a framework |:thinking:|
+
+It is a toolbox developed to reduce the boilerplate coding we do in our services.
+
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+      :maxdepth: 2
+      :titlesonly:
+      :glob:
 
+      install_config.rst
+      modules/*
 
-Indices and tables
-==================
-
+Reference
+---------
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

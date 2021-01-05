@@ -12,7 +12,6 @@ styler\_rest\_framework.controllers.request\_scope module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

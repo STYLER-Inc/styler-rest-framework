@@ -12,6 +12,13 @@ styler\_rest\_framework.api.request\_scope module
    :undoc-members:
    :show-inheritance:
 
+styler\_rest\_framework.api.responses module
+--------------------------------------------
+
+.. automodule:: styler_rest_framework.api.responses
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

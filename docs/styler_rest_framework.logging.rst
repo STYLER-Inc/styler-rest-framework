@@ -12,7 +12,6 @@ styler\_rest\_framework.logging.error\_reporting module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

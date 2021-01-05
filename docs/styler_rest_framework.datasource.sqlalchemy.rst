@@ -12,7 +12,6 @@ styler\_rest\_framework.datasource.sqlalchemy.session module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

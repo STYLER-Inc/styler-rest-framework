@@ -36,7 +36,6 @@ styler\_rest\_framework.helpers.paginator module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

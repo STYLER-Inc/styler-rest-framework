@@ -12,7 +12,6 @@ styler\_rest\_framework.middlewares.fastapi.exception\_middleware module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 
