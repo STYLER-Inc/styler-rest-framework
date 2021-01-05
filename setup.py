@@ -13,7 +13,6 @@ requirements = [
     'pyyaml',
     'psycopg2-binary',
     'sqlalchemy-serializer',
-    'styler-identity',
     'styler-middleware',
     'styler-validation',
     'cachetools',
