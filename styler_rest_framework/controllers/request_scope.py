@@ -3,7 +3,7 @@
 
 import warnings
 
-from styler_identity import Identity
+from styler_rest_framework.api.request_scope import Identity
 
 
 class RequestScope(Identity):
