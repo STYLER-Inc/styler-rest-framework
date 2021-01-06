@@ -32,6 +32,7 @@ requirements = [
     'protobuf',
     'pyasn1-modules',
     'pyasn1',
+    'pyjwt',
     'pytz',
     'requests',
     'rsa',
