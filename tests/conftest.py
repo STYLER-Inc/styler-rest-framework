@@ -18,7 +18,8 @@ def token():
                 admin=False,
                 staff=False,
                 shops=None,
-                organizations=None
+                organizations=None,
+                user_id=None
             ):
         if overwrites is None:
             overwrites = {}
@@ -31,7 +32,7 @@ def token():
             'iss': 'issuer',
             'aud': 'audition',
             'auth_time': 'time',
-            'user_id': '1234',
+            'user_id': user_id or '1234',
             'sub': 'sub',
             'iat': 1595838390,
             'exp': 1595839390,
