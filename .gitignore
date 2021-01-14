@@ -105,3 +105,4 @@ ENV/
 .vscode/
 
 pytest-result.xml
+coverage.json
