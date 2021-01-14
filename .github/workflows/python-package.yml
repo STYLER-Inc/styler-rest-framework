@@ -4,8 +4,6 @@
 name: Python package
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -29,27 +27,21 @@ jobs:
         pip install tox tox-gh-actions
     - name: Test with tox
       run: tox
-    - name: Upload tests
-      uses: actions/upload-artifact@v2
+    - name: Publish Unit Test Results
+      if: ${{ success() || failure() }}
+      uses: EnricoMi/publish-unit-test-result-action@v1.3
       with:
-        name: Test Results (Python ${{ matrix.python-version }})
-        path: pytest-result.xml
-
-  publish-test-results:
-    name: "Publish Unit Tests Results"
-    needs: build
-    runs-on: ubuntu-latest
-    if: success() || failure()
-
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: artifacts
-
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.3
-        with:
-          check_name: Unit Test Results
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: ./**/pytest-result.xml
+        check_name: Unit Test Results
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        files: ./**/pytest-result.xml
+    - name: Extract coverage
+      id: extract_coverage
+      if: ${{ success() || failure() }}
+      uses: brunotoshio/python-coverage-action@v0.3.0
+      with:
+        filepath: ${{ env.dir }}/coverage.json
+    - name: Publish coverage
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: ${{ steps.extract_coverage.outputs.result }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
