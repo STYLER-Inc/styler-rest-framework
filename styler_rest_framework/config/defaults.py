@@ -13,3 +13,8 @@ ERROR_HANDLER_SERVICE = f'{NAMESPACE}/{SERVICE_NAME}'
 ENVIRONMENT = os.getenv('ENVIRONMENT')
 TOPIC_NAME = os.getenv('TOPIC_NAME') or \
     f'projects/facy-{ENVIRONMENT}/topics/common'
+
+# Mailer
+EMAIL_SENDER = os.getenv('EMAIL_SENDER') or 'info@styler.link'
+EMAIL_SENDER_NAME = os.getenv('EMAIL_SENDER_NAME') or 'FACYカスタマーサポート'
+EMAIL_TYPE = os.getenv('EMAIL_TYPE') or 'text/html'
