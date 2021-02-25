@@ -12,6 +12,7 @@ from styler_rest_framework.exceptions.services import (
     NotFoundError,
     PaymentRequiredError,
     UnexpectedError,
+    ConflictionError,
 )
 
 
@@ -112,6 +113,8 @@ class HTTPHandler:
             raise AuthorizationError(resp.status, response_text)
         elif resp.status == 404:
             raise NotFoundError(resp.status, response_text)
+        elif resp.status == 409:
+            raise ConflictionError(resp.status, response_text)
         elif resp.status == 500:
             raise InternalServerError(resp.status, response_text)
         else:
