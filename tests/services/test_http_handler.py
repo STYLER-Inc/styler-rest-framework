@@ -13,6 +13,7 @@ from styler_rest_framework.exceptions.services import (
     NotFoundError,
     PaymentRequiredError,
     UnexpectedError,
+    ConflictError,
 )
 import pytest
 
@@ -79,6 +80,7 @@ class TestPost:
         (402, PaymentRequiredError),
         (403, AuthorizationError),
         (404, NotFoundError),
+        (409, ConflictError),
         (500, InternalServerError),
         (986, UnexpectedError),
     ]
@@ -152,6 +154,7 @@ class TestPut:
         (402, PaymentRequiredError),
         (403, AuthorizationError),
         (404, NotFoundError),
+        (409, ConflictError),
         (500, InternalServerError),
         (986, UnexpectedError),
     ]
@@ -225,6 +228,7 @@ class TestPatch:
         (402, PaymentRequiredError),
         (403, AuthorizationError),
         (404, NotFoundError),
+        (409, ConflictError),
         (500, InternalServerError),
         (986, UnexpectedError),
     ]

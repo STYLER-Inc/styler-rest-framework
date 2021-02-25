@@ -47,6 +47,11 @@ class NotFoundError(ServiceError):  # pragma: no coverage
     """
 
 
+class ConflictError(ServiceError):  # pragma: no coverage
+    """ Error when the service returns a 409 Conflict
+    """
+
+
 class InternalServerError(ServiceError):  # pragma: no coverage
     """ Error when the service returns a 500 Not found
     """
