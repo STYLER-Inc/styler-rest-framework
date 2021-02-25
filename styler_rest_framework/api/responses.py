@@ -24,7 +24,7 @@ from styler_rest_framework.exceptions.services import (
     InvalidDataError,
     NotFoundError,
     PaymentRequiredError,
-    ConflictionError,
+    ConflictError as ServiceConflictError,
 )
 
 
@@ -130,7 +130,7 @@ def handle_service_errors(ex):
         forbidden()
     elif isinstance(ex, NotFoundError):
         not_found()
-    elif isinstance(ex, ConflictionError):
+    elif isinstance(ex, ServiceConflictError):
         conflict()
     else:
         internal_server_error(exception=ex)

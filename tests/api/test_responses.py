@@ -20,7 +20,7 @@ from styler_rest_framework.exceptions.services import (
     NotFoundError,
     PaymentRequiredError,
     UnexpectedError,
-    ConflictionError,
+    ConflictError as ServiceConflictError,
 )
 import pytest
 
@@ -141,7 +141,7 @@ class TestHandleServiceErrors:
             responses.payment_required
         ),
         (UnexpectedError, 500, '', responses.internal_server_error),
-        (ConflictionError, 409, '', responses.conflict),
+        (ServiceConflictError, 409, '', responses.conflict),
     ]
 
     @pytest.mark.parametrize('exp_type,status,body,expected', cases)
