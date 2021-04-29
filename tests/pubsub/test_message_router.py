@@ -27,8 +27,6 @@ class TestHandleMessage:
 
         router.handle_message(message)
 
-        message.ack.assert_called_once()
-
     def test_handle_errors_invalid_body(self):
         message = Mock()
         error_handler = Mock()
