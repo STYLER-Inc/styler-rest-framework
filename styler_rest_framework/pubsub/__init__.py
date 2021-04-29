@@ -27,8 +27,6 @@ class MessageRouter:
         """
         logging.info('Received message: %s', message)
 
-        message.ack()
-
         try:
             body = self._validate_envelope(message.data)
 
@@ -37,6 +35,7 @@ class MessageRouter:
                 self._routes[message_name](body['arg'])
             else:
                 logging.info('Unknown message name: %s', message_name)
+            message.ack()
         except Exception:
             if self.error_handler:
                 self.error_handler()
