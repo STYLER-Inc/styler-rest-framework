@@ -12,8 +12,7 @@ from sqlalchemy import orm
 
 @contextmanager
 def create(engine):
-    """ Creates a context with a sql alchemy session
-    """
+    """Creates a context with a sql alchemy session"""
     session_maker = orm.sessionmaker(bind=engine)
     session = session_maker()
     try:
