@@ -13,14 +13,14 @@ def event_loop(loop):
 @pytest.fixture
 def token():
     def generate(
-                overwrites=None,
-                sysadmin=False,
-                admin=False,
-                staff=False,
-                shops=None,
-                organizations=None,
-                user_id=None
-            ):
+        overwrites=None,
+        sysadmin=False,
+        admin=False,
+        staff=False,
+        shops=None,
+        organizations=None,
+        user_id=None
+    ):
         if overwrites is None:
             overwrites = {}
         data = {**{

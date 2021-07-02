@@ -102,9 +102,9 @@ class TestTrack:
         iden = Identity(token(sysadmin=True, user_id='111'))
 
         with patch(
-                'styler_rest_framework.events.user_event.time.time',
-                Mock(return_value='timestamp')
-                ):
+            'styler_rest_framework.events.user_event.time.time',
+            Mock(return_value='timestamp')
+        ):
             do_something(1234, 'aaa', c='parameter c', d=iden)
 
         mocked_handler.assert_called_once_with(
