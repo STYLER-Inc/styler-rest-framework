@@ -41,23 +41,6 @@ class TestGetCallback:
         mocked_logging.assert_called_once()
 
 
-class TestPublishMessage:
-    """ Tests for publish_message
-    """
-    @patch('google.cloud.pubsub_v1.PublisherClient')
-    def test_publish_message(self, mocked_client):
-        mocked_client.return_value = Mock()
-        topic_name = 'topic_full_name'
-        data = {'key': 'value'}
-
-        handler.publish_message(topic_name, data)
-
-        mocked_client.return_value.publish.assert_called_once_with(
-            'topic_full_name', data=data, version='1')
-        mocked_client.return_value\
-            .publish.return_value.add_done_callback.assert_called_once()
-
-
 class MockMessage(Message):
     def __init__(self, some_data):
         self.name = 'MockMessage'

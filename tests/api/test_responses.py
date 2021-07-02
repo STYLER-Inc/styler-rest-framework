@@ -98,10 +98,10 @@ class TestHandleBusinessErrors:
     """
     cases = [
         (InternalError, None, responses.internal_server_error),
-        (ValidationError, {'error': 'something'},  responses.bad_request),
-        (PermissionDeniedError, None,  responses.forbidden),
-        (ResourceNotFoundError, None,  responses.not_found),
-        (ConflictError, 'conflict',  responses.conflict),
+        (ValidationError, {'error': 'something'}, responses.bad_request),
+        (PermissionDeniedError, None, responses.forbidden),
+        (ResourceNotFoundError, None, responses.not_found),
+        (ConflictError, 'conflict', responses.conflict),
     ]
 
     @pytest.mark.parametrize('exp_type,args,expected', cases)
