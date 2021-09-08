@@ -23,7 +23,7 @@ def api_error_reporting_handler(service=None):  # pragma: no coverage
 
         def error_handler(request, exc):
             http_context = error_reporting.HTTPContext(
-                method=request.method, url=request.path
+                method=request.method, url=request.url.path
             )
             handler(http_context=http_context)
 
