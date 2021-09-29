@@ -25,14 +25,19 @@ class HTTPHandler:
             self.retry_on = [503]
         else:
             self.retry_on = retry_on
-        self.identity = identity
+        self.headers = {}
         if headers is None:
             headers = {}
+        if identity:
+            self.identity = identity
+            self.headers = {
+                "Authorization": f"Bearer {identity.token()}",
+                **{"Accept-Language": identity.localization()},
+                **identity.trace_header()
+            }
         self.headers = {
-            "Authorization": f"Bearer {identity.token()}",
-            **{"Accept-Language": identity.localization()},
-            **identity.trace_header(),
-            **headers,
+            **self.headers,
+            **headers
         }
 
     async def post(self, url, params, error_handlers=None, retry=3, **kwargs):
