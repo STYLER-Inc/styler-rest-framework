@@ -5,13 +5,15 @@ import os
 
 
 SERVICE_NAME = os.getenv("SERVICE_NAME") or "svc"
+CONTAINER_NAME = os.getenv("CONTAINER_NAME") or "api"
 NAMESPACE = os.getenv("NAMESPACE") or "namespace"
 VERSION = os.getenv("VERSION") or "0.1.0"
 
-ERROR_HANDLER_SERVICE = f"{NAMESPACE}/{SERVICE_NAME}"
+ERROR_HANDLER_SERVICE = f"{NAMESPACE}/{CONTAINER_NAME}"
 
 ENVIRONMENT = os.getenv("ENVIRONMENT")
 TOPIC_NAME = os.getenv("TOPIC_NAME") or f"projects/facy-{ENVIRONMENT}/topics/common"
+MAILER_TOPIC = os.getenv("MAILER_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/send-email"
 
 # Mailer
 EMAIL_SENDER = os.getenv("EMAIL_SENDER") or "info@styler.link"

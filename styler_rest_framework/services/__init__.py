@@ -20,7 +20,7 @@ from styler_rest_framework.exceptions.services import (
 class HTTPHandler:
     """Handles HTTP operations"""
 
-    def __init__(self, identity, retry_on=None, headers=None):
+    def __init__(self, identity=None, retry_on=None, headers=None):
         if retry_on is None:
             self.retry_on = [503]
         else:
