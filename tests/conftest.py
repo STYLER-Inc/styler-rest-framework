@@ -64,3 +64,8 @@ def token():
 @pytest.fixture
 def empty_token():
     return jwt.encode({}, 'secret-key')
+
+
+@pytest.fixture
+def csv_blob_from_gcs():
+    return 'header1,header2\nrow1-1,row1-2'.encode('utf-8')

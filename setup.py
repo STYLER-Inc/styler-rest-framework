@@ -23,6 +23,7 @@ requirements = [
     'google-cloud-core',
     'google-cloud-monitoring',
     'google-cloud-pubsub',
+    'google-cloud-storage',
     'google-cloud-trace >= 0.20.0, < 1.0.0',
     'googleapis-common-protos',
     'grpcio',
