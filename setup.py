@@ -46,6 +46,7 @@ requirements = [
     'fastapi',
     'pydantic',
     'pycryptodome',
+    'firebase-admin',
 ]
 
 setup_requirements = ['pytest-runner', ]
