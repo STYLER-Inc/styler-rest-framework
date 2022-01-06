@@ -14,6 +14,7 @@ ERROR_HANDLER_SERVICE = f"{NAMESPACE}/{CONTAINER_NAME}"
 ENVIRONMENT = os.getenv("ENVIRONMENT")
 TOPIC_NAME = os.getenv("TOPIC_NAME") or f"projects/facy-{ENVIRONMENT}/topics/common"
 MAILER_TOPIC = os.getenv("MAILER_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/send-email"
+LOGME_TOPIC = os.getenv("LOGME_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/logme"
 
 # Mailer
 EMAIL_SENDER = os.getenv("EMAIL_SENDER") or "info@styler.link"
