@@ -11,6 +11,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from styler_rest_framework import message
 from styler_rest_framework.config import defaults
 from styler_rest_framework.middlewares.fastapi import exception_middleware
+from styler_rest_framework.middlewares.fastapi.auth_middleware import add_auth_middleware
 from styler_rest_framework.logging.error_reporting import google_error_reporting_handler
 
 
