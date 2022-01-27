@@ -20,3 +20,6 @@ LOGME_TOPIC = os.getenv("LOGME_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/l
 EMAIL_SENDER = os.getenv("EMAIL_SENDER") or "info@styler.link"
 EMAIL_SENDER_NAME = os.getenv("EMAIL_SENDER_NAME") or "FACYカスタマーサポート"
 EMAIL_TYPE = os.getenv("EMAIL_TYPE") or "text/html"
+
+# JWKS
+JWKS_URL = os.getenv("JWKS_URL") or "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
