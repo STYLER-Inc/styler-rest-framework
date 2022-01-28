@@ -72,3 +72,16 @@ class TestValidateJWTException:
         call_next.assert_not_called()
         assert isinstance(response, JSONResponse)
         assert response.status_code == 401
+
+    @patch('styler_rest_framework.middlewares.fastapi.auth_middleware.validate', Mock(return_value=False))
+    async def test_exclude_path(self):
+        app = MockFastAPI()
+        auth_middleware.add_auth_middleware(app, 'development', excludes=['/some/path'])
+        call_next = AsyncMock()
+        request = Mock()
+        request.headers.get.return_value = 'Bearer some_jwt'
+        request.url.path = '/some/path'
+        
+        response = await app.middleware_func(request, call_next)
+
+        call_next.assert_called_once()
