@@ -46,6 +46,18 @@ class TestValidateJWTException:
         call_next.assert_called_once()
 
     @patch('styler_rest_framework.middlewares.fastapi.auth_middleware.validate', Mock(return_value=True))
+    async def test_valid_jwt_without_bearer(self):
+        app = MockFastAPI()
+        auth_middleware.add_auth_middleware(app, 'development')
+        call_next = AsyncMock()
+        request = Mock()
+        request.headers.get.return_value = 'some_jwt'
+
+        _ = await app.middleware_func(request, call_next)
+
+        call_next.assert_called_once()
+
+    @patch('styler_rest_framework.middlewares.fastapi.auth_middleware.validate', Mock(return_value=True))
     async def test_missing_jwt(self):
         app = MockFastAPI()
         auth_middleware.add_auth_middleware(app, 'development')
