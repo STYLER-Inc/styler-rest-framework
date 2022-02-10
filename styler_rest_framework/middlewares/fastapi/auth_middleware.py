@@ -31,7 +31,7 @@ def add_auth_middleware(
             jwt_token = request.headers.get('Authorization')
             if not jwt_token:
                 return JSONResponse(status_code=401, content={'error': 'Missing JWT token'})
-            jwt_data = validate(jwt_token.split()[1], env, jwks_url)
+            jwt_data = validate(jwt_token.split()[-1], env, jwks_url)
             if not jwt_data:
                 return JSONResponse(status_code=401, content={'error': 'Invalid JWT token'})
 

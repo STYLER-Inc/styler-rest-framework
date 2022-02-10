@@ -80,19 +80,23 @@ def setup_validation_handler(
         openapi_schema = get_openapi(
             title=defaults.SERVICE_NAME, version=defaults.VERSION, routes=app.routes
         )
-        openapi_schema["components"]["schemas"].pop("ValidationError")
-        openapi_schema["components"]["schemas"]["HTTPValidationError"] = {
-            "title": "ValidationError",
-            "type": "object",
-            "properties": {
-                "code": {"type": "string"},
-                "reason": {
-                    "type": "object",
-                    "additionalProperties": {"type": "string"},
+        try:
+            openapi_schema["components"]["schemas"].pop("ValidationError")
+            openapi_schema["components"]["schemas"]["HTTPValidationError"] = {
+                "title": "ValidationError",
+                "type": "object",
+                "properties": {
+                    "code": {"type": "string"},
+                    "reason": {
+                        "type": "object",
+                        "additionalProperties": {"type": "string"},
+                    },
                 },
-            },
-            "required": ["code", "reason"],
-        }
+                "required": ["code", "reason"],
+            }
+        except KeyError:
+            # Do nothing
+            pass
         app.openapi_schema = openapi_schema
         return app.openapi_schema
 
