@@ -9,7 +9,7 @@ try:
 except Exception:
     logging.exception(f'Missing libraries: pipenv install fastapi')
 
-from styler_rest_framework.middlewares.fastapi.jwt_validator import validate
+from styler_rest_framework.helpers.jwt_validator import validate
 from styler_rest_framework.config import defaults
 
 
