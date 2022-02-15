@@ -12,7 +12,7 @@ import pytest
 
 
 def test_generator():
-    mid = add_auth_middleware('development')
+    mid = add_auth_middleware(Mock(), 'development')
 
     assert callable(mid)
 
@@ -24,7 +24,7 @@ def test_normal_flow():
     request.headers = Mock()
     request.headers.get.return_value = 'bearer token'
     handler = AsyncMock(return_value='response')
-    middleware = add_auth_middleware('development')
+    middleware = add_auth_middleware(Mock(), 'development')
 
     resp = asyncio.run(middleware(request, handler))
 
@@ -36,7 +36,7 @@ def test_exclude_path():
     request = Mock()
     request.path = '/some/path'
     handler = AsyncMock(return_value='response')
-    middleware = add_auth_middleware('development', excludes=['/some/path'])
+    middleware = add_auth_middleware(Mock(), 'development', excludes=['/some/path'])
 
     resp = asyncio.run(middleware(request, handler))
 
@@ -50,7 +50,7 @@ def test_missing_jwt():
     request.headers = Mock()
     request.headers.get.return_value = None
     handler = AsyncMock(return_value='response')
-    middleware = add_auth_middleware('development')
+    middleware = add_auth_middleware(Mock(), 'development')
 
     resp = asyncio.run(middleware(request, handler))
 
@@ -64,7 +64,7 @@ def test_invalid_jwt():
     request.headers = Mock()
     request.headers.get.return_value = 'bearer some-invalid-token'
     handler = AsyncMock(return_value='response')
-    middleware = add_auth_middleware('development')
+    middleware = add_auth_middleware(Mock(), 'development')
 
     resp = asyncio.run(middleware(request, handler))
 
@@ -78,7 +78,7 @@ def test_pass_exceptions():
     request.headers = Mock()
     request.headers.get.return_value = 'bearer token'
     handler = AsyncMock(side_effect=ValueError('invalid something'))
-    middleware = add_auth_middleware('development')
+    middleware = add_auth_middleware(Mock(), 'development')
 
     with pytest.raises(ValueError):
         _ = asyncio.run(middleware(request, handler))
@@ -91,7 +91,7 @@ def test_pass_http_exceptions():
     request.headers = Mock()
     request.headers.get.return_value = 'bearer token'
     handler = AsyncMock(side_effect=HTTPException())
-    middleware = add_auth_middleware('development')
+    middleware = add_auth_middleware(Mock(), 'development')
 
     with pytest.raises(HTTPException):
         _ = asyncio.run(middleware(request, handler))

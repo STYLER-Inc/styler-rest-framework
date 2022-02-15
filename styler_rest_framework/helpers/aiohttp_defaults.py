@@ -7,6 +7,7 @@ from styler_middleware import handle_exceptions, handle_invalid_json
 from styler_rest_framework.config import defaults
 from styler_rest_framework.logging import setup_logging
 from styler_rest_framework.logging.error_reporting import google_error_reporting_handler
+from styler_rest_framework.middlewares.aiohttp.auth_middleware import add_auth_middleware
 
 
 def api_error_reporting_handler(service=None):  # pragma: no coverage

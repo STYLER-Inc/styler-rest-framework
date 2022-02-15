@@ -8,6 +8,7 @@ from styler_rest_framework.config import defaults
 
 
 def add_auth_middleware(
+    app,
     env: str,
     jwks_url: str = None,
     excludes: List[str] = None,
@@ -36,4 +37,6 @@ def add_auth_middleware(
             return await handler(request)
         except web.HTTPException:
             raise
+
+    app.middlewares.append(middleware)
     return middleware
