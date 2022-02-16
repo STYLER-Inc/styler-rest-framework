@@ -65,6 +65,6 @@ def validate(token, env, jwks_url):  # pragma: no coverage
         )
         verify_token(data)
         return data
-    except InvalidTokenError as ex:
+    except Exception as ex:
         logging.exception(ex)
         return None
