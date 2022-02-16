@@ -1,6 +1,7 @@
 """ Middleware to handle exceptions
 """
 from typing import List
+import re
 
 from aiohttp import web
 from styler_rest_framework.helpers.jwt_validator import validate
@@ -12,6 +13,7 @@ def add_auth_middleware(
     env: str,
     jwks_url: str = None,
     excludes: List[str] = None,
+    excludes_regex: List[str] = None,
 ):
     if not jwks_url:  # pragma: no coverage
         jwks_url = defaults.JWKS_URL
@@ -20,8 +22,12 @@ def add_auth_middleware(
     async def middleware(request, handler):
         try:
             paths = [] if excludes is None else excludes
+            regex_paths = [] if excludes_regex is None else excludes_regex
             if request.path in paths:
                 return await handler(request)
+            for regex_path in regex_paths:
+                if re.match(regex_path, request.path):
+                    return await handler(request)
             jwt_token = request.headers.get('AUTHORIZATION')
             if not jwt_token:
                 return web.json_response(

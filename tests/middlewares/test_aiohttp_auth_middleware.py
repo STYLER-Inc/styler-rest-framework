@@ -42,6 +42,29 @@ def test_exclude_path():
 
     assert resp == 'response'
 
+cases = [
+    ('/some/path/f1225763-3eef-4067-b1ab-17d99b126eab/something', True),
+    ('/some/path/f1225763-3eef-4067-b1ab-17d99b126eab/something/', True),
+    ('/some/path/something', False),
+    ('/some/path', False),
+    ('/some/path//something', False),
+    ('/some/path/1234/1234/something', False),
+    ('/path/1234/something', False),
+]
+@pytest.mark.parametrize('path, expected', cases)
+@patch('styler_rest_framework.middlewares.aiohttp.auth_middleware.validate', Mock(return_value=False))
+def test_exclude_regex_path(path, expected):
+    request = Mock()
+    request.path = path
+    request.headers = Mock()
+    request.headers.get.return_value = 'bearer token'
+    handler = AsyncMock(return_value='response')
+    middleware = add_auth_middleware(Mock(), 'development', excludes_regex=['^/some/path/(\w|\d|-)+/something/?$'])
+
+    resp = asyncio.run(middleware(request, handler))
+
+    assert expected == (resp == 'response')
+
 
 @patch('styler_rest_framework.middlewares.aiohttp.auth_middleware.validate', Mock(return_value=False))
 def test_missing_jwt():
