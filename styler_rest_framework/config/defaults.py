@@ -23,3 +23,7 @@ EMAIL_TYPE = os.getenv("EMAIL_TYPE") or "text/html"
 
 # JWKS
 JWKS_URL = os.getenv("JWKS_URL") or "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+
+# Internal requests - logging
+INTERNAL_REQUESTS_DATASET = "logging"
+INTERNAL_REQUESTS_TABLE = "internal-requests"
