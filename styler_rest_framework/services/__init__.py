@@ -261,13 +261,13 @@ class HTTPHandler:
         :type response_body: str, optional
         """
         try:
-            logme({
-                "dataset": defaults.INTERNAL_REQUESTS_DATASET,
-                "table": defaults.INTERNAL_REQUESTS_TABLE,
-                "rows": [
+            logme(
+                defaults.INTERNAL_REQUESTS_DATASET,
+                defaults.INTERNAL_REQUESTS_TABLE,
+                [
                     (origin_service, path, method, auth, request_body, int(time()), request_tags, response_status_code, response_body)
                 ]
-            })
+            )
         except Exception as ex:
             logging.warning(f"Could not log request: {str(ex)}")
 
