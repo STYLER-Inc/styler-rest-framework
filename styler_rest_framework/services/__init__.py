@@ -24,7 +24,7 @@ from styler_rest_framework.config import defaults
 class HTTPHandler:
     """Handles HTTP operations"""
 
-    def __init__(self, identity=None, retry_on=None, headers=None, log=False):
+    def __init__(self, identity=None, retry_on=None, headers=None, log=None):
         if retry_on is None:
             self.retry_on = [503]
         else:
@@ -32,6 +32,7 @@ class HTTPHandler:
         self.headers = {}
         if headers is None:
             headers = {}
+        self.identity = None
         if identity:
             self.identity = identity
             self.headers = {
@@ -43,7 +44,7 @@ class HTTPHandler:
             **self.headers,
             **headers
         }
-        self.log_requests = log
+        self.log_requests = log if log is not None else defaults.INTERNAL_REQUESTS_LOG_ALL
 
     async def post(self, url, params, error_handlers=None, retry=3, **kwargs):
         retry_on = kwargs.get("retry_on") or self.retry_on
@@ -54,7 +55,7 @@ class HTTPHandler:
             "POST",
             headers.get("Authorization"),
             json.dumps(params),
-            json.dumps(self.identity.trace_header())
+            json.dumps(self.identity.trace_header()) if self.identity else ""
         ]
 
         try:
@@ -91,7 +92,7 @@ class HTTPHandler:
             "PATCH",
             headers.get("Authorization"),
             json.dumps(params),
-            json.dumps(self.identity.trace_header())
+            json.dumps(self.identity.trace_header()) if self.identity else ""
         ]
 
         try:
@@ -129,7 +130,7 @@ class HTTPHandler:
             "PUT",
             headers.get("Authorization"),
             json.dumps(params),
-            json.dumps(self.identity.trace_header())
+            json.dumps(self.identity.trace_header()) if self.identity else ""
         ]
 
         try:
@@ -167,7 +168,7 @@ class HTTPHandler:
             "DELETE",
             headers.get("Authorization"),
             "",
-            json.dumps(self.identity.trace_header())
+            json.dumps(self.identity.trace_header()) if self.identity else ""
         ]
 
         try:
@@ -203,7 +204,7 @@ class HTTPHandler:
             "GET",
             headers.get("Authorization"),
             "",
-            json.dumps(self.identity.trace_header())
+            json.dumps(self.identity.trace_header()) if self.identity else ""
         ]
 
         try:
@@ -269,6 +270,10 @@ class HTTPHandler:
             })
         except Exception as ex:
             logging.warning(f"Could not log request: {str(ex)}")
+
+    def get_trace_header(self, headers=None):
+        headers = headers or self.headers
+
 
     def _prepare_headers(self, overrides):
         headers = self.headers
