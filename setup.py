@@ -77,6 +77,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/STYLER-Inc/styler-rest-framework',
-    version='1.16.1',
+    version='1.16.2',
     zip_safe=False,
 )
