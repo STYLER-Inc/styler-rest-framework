@@ -27,4 +27,4 @@ JWKS_URL = os.getenv("JWKS_URL") or "https://www.googleapis.com/robot/v1/metadat
 # Internal requests - logging
 INTERNAL_REQUESTS_DATASET = os.getenv("INTERNAL_REQUESTS_DATASET") or "logging"
 INTERNAL_REQUESTS_TABLE = os.getenv("INTERNAL_REQUESTS_TABLE") or "internal-requests"
-INTERNAL_REQUESTS_LOG_ALL = bool(os.getenv("INTERNAL_REQUESTS_LOG_ALL")) or False
+INTERNAL_REQUESTS_LOG_ALL = bool(os.getenv("INTERNAL_REQUESTS_LOG_ALL")) or True
