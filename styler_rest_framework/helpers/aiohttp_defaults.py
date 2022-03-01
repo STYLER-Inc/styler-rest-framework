@@ -7,6 +7,7 @@ from styler_middleware import handle_exceptions, handle_invalid_json
 from styler_rest_framework.config import defaults
 from styler_rest_framework.logging import setup_logging
 from styler_rest_framework.logging.error_reporting import google_error_reporting_handler
+from styler_rest_framework.logging.logging_filter import EndpointFilter
 from styler_rest_framework.middlewares.aiohttp.auth_middleware import add_auth_middleware
 
 
@@ -50,6 +51,7 @@ def add_middlewares(
 
 def set_logging(level=logging.INFO):  # pragma: no coverage
     setup_logging(level)
+    logging.getLogger("aiohttp.access").addFilter(EndpointFilter())
 
 
 def default_configuration(app):  # pragma: no coverage

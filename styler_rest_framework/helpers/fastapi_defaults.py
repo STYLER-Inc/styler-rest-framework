@@ -13,6 +13,7 @@ from styler_rest_framework.config import defaults
 from styler_rest_framework.middlewares.fastapi import exception_middleware
 from styler_rest_framework.middlewares.fastapi.auth_middleware import add_auth_middleware
 from styler_rest_framework.logging.error_reporting import google_error_reporting_handler
+from styler_rest_framework.logging.logging_filter import EndpointFilter
 
 
 def api_error_reporting_handler(service=None):  # pragma: no coverage
@@ -49,6 +50,8 @@ def add_middlewares(app, error_handler=None, service=None, handle_exceptions_arg
     exception_middleware.add_exception_middleware(
         app, error_handler=error_handler, **handle_exceptions_args
     )
+
+    logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
 
 
 def setup_validation_handler(
