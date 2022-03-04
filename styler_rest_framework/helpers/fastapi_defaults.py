@@ -66,7 +66,7 @@ def setup_validation_handler(
         locale = request.headers.get("Accept-Language", "ja")
         errors = {}
         for err in exc.errors():
-            field = ".".join(err["loc"][1:]) or "error"
+            field = ".".join(str(err["loc"][1:])) or "error"
             err_type = err["type"].replace(".", "_")
             errors[field] = message.get(
                 f"pydantic_validation.{err_type}", locale=locale, **err.get("ctx", {})
