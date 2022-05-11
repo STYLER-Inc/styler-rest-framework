@@ -72,7 +72,7 @@ class TestHandleException:
     async def test_no_exception(self):
         app = MockFastAPI()
         exception_middleware.add_exception_middleware(app)
-        call_next = AsyncMock(return_value=JSONResponse(status_code=200))
+        call_next = AsyncMock(return_value=JSONResponse(status_code=200, content=''))
         request = Mock()
 
         response = await app.middleware_func(request, call_next)

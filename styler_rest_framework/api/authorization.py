@@ -34,20 +34,20 @@ def authorize(role: int):
         async def awrapper(*args, **kwargs):
             token = kwargs.get('authorization')
             if not token:
-                return JSONResponse(status_code=403)
+                return JSONResponse(status_code=403, content="Forbidden")
             identity = RequestScope(authorization=token)
             if highest_role(identity._roles()) < role:
-                return JSONResponse(status_code=403)
+                return JSONResponse(status_code=403, content="Forbidden")
             return await func(*args, **kwargs)
 
         @wraps(func)
         def wrapper(*args, **kwargs):
             token = kwargs.get('authorization')
             if not token:
-                return JSONResponse(status_code=403)
+                return JSONResponse(status_code=403, content="Forbidden")
             identity = RequestScope(authorization=token)
             if highest_role(identity._roles()) < role:
-                return JSONResponse(status_code=403)
+                return JSONResponse(status_code=403, content="Forbidden")
             return func(*args, **kwargs)
 
         if asyncio.iscoroutinefunction(func):

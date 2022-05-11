@@ -15,6 +15,7 @@ ENVIRONMENT = os.getenv("ENVIRONMENT")
 TOPIC_NAME = os.getenv("TOPIC_NAME") or f"projects/facy-{ENVIRONMENT}/topics/common"
 MAILER_TOPIC = os.getenv("MAILER_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/send-email"
 LOGME_TOPIC = os.getenv("LOGME_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/logme"
+SLACK_ALERT_TOPIC = os.getenv("SLACK_ALERT_TOPIC") or f"projects/facy-{ENVIRONMENT}/topics/send-slack-alert"
 
 # Mailer
 EMAIL_SENDER = os.getenv("EMAIL_SENDER") or "info@styler.link"
